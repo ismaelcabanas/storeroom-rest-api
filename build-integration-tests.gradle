@@ -1,0 +1,25 @@
+configurations {
+    integrationtestCompile.extendsFrom testCompile
+    integrationtestRuntime.extendsFrom testRuntime
+}
+sourceSets {
+    integrationtest {
+        java {
+            compileClasspath += main.output + test.output
+            runtimeClasspath += main.output + test.output
+            // Use "java" if you don't use Scala as a programming language
+            srcDir file('src/integration-test/java')
+        }
+        resources.srcDir file('src/integration-test/resources')
+    }
+}
+task integrationTest(type: Test) {
+    testClassesDir = sourceSets.integrationtest.output.classesDir
+    classpath = sourceSets.integrationtest.runtimeClasspath
+    // This is not needed, but I like to see which tests have run
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
+integrationTest.mustRunAfter test
