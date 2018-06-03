@@ -1,0 +1,71 @@
+apply plugin: 'pmd'
+apply plugin: 'findbugs'
+apply plugin: 'checkstyle'
+apply plugin: 'jacoco'
+
+
+pmd {
+    ruleSetFiles = files("$rootProject.projectDir/config/pmd/pmd-ruleset.xml")
+    consoleOutput = true
+}
+findbugs {
+    includeFilter = file("$rootProject.projectDir/config/findbugs/findbugs-config.xml")
+    excludeFilter = file("$rootProject.projectDir/config/findbugs/findbugs-excludes.xml")
+}
+
+checkstyle {
+    toolVersion = "6.16"
+    configFile = file("${rootProject.projectDir}/config/checkstyle/checkstyle.xml")
+    configProperties = [ "suppressionFile" : file("${rootProject.projectDir}/config/checkstyle/checkstyle-suppressions.xml")]
+}
+
+jacoco {
+    toolVersion = "0.7.7.201606060606"
+}
+
+jacocoTestReport {
+    group = "Reporting"
+    executionData tasks.withType(Test)
+    reports {
+        xml.enabled true
+        csv.enabled false
+        html.destination file ("${buildDir}/reports/coverage")
+    }
+    afterEvaluate {
+        classDirectories = files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                    '**/*Application**'
+            ])
+        })
+    }
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.5 // our tests should cover minimun of 70%, if violate the rule the build will fail
+            }
+        }
+    }
+}
+
+test {
+    jacoco {
+        append = false
+        excludes = ['*Application*']
+    }
+}
+
+jacocoTestReport.onlyIf {
+    file("$rootProject.buildDir/jacoco/integrationTest.exec").exists()
+}
+
+tasks.withType(FindBugs) {
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}
+
+check.dependsOn jacocoTestCoverageVerification
