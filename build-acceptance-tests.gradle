@@ -1,0 +1,32 @@
+configurations {
+    acceptancetestCompile.extendsFrom testCompile
+    acceptancetestRuntime.extendsFrom testRuntime
+}
+sourceSets {
+    acceptancetest {
+        java {
+            compileClasspath += main.output + test.output
+            runtimeClasspath += main.output + test.output
+            // Use "java" if you don't use Scala as a programming language
+            srcDir file('src/acceptance-test/java')
+        }
+        resources.srcDir file('src/acceptance-test/resources')
+    }
+}
+task acceptanceTest(type: Test) {
+    testClassesDir = sourceSets.acceptancetest.output.classesDir
+    classpath = sourceSets.acceptancetest.runtimeClasspath
+    // This is not needed, but I like to see which tests have run
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
+dependencies {
+    // Testing
+    // Karate acceptance test tool
+    testCompile 'com.intuit.karate:karate-junit4:0.7.0'
+    testCompile 'com.intuit.karate:karate-apache:0.7.0'
+}
+
+acceptanceTest.mustRunAfter integrationTest
