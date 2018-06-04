@@ -3,6 +3,7 @@
 build/
 classes/
 out/
+target/
 
 # Compiled class file
 *.class
