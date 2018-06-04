@@ -1,7 +1,9 @@
 ### Gradle template
 .gradle
 build/
+classes/
 out/
+target/
 
 # Ignore Gradle GUI config
 gradle-app.setting
