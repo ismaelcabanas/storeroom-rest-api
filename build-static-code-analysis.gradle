@@ -3,7 +3,6 @@ apply plugin: 'findbugs'
 apply plugin: 'checkstyle'
 apply plugin: 'jacoco'
 
-
 pmd {
     ruleSetFiles = files("$rootProject.projectDir/config/pmd/pmd-ruleset.xml")
     consoleOutput = true
