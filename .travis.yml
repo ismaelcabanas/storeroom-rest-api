@@ -1,15 +1,24 @@
 sudo: required
+
+services:
+  - docker
+
 language: java
+
 jdk:
   - oraclejdk8
 
 env:
   global:
     - secure: "NNXzL/nMhHSHyMeet17Fc+HJJKbNN/OnMhkPDoVhYGPabJSdbaomz/yT0v54+dpdoywv7VEIg2PULUGcRSq6PP0y25fun9QnSPlMiK1qfgFlTa+elXgOWYWu1OP3rWpuQuFycj+Oiq7/V9A5juqTQU2G4q8satCIwCVfM6Lq+clRtoO2GVkvPS2g28uzptB+uUoE7YZtMT8ujbK3/RT/tieRnL3+MYZfJuqBmHTN9PsfdpUciQ5hQyPkfmjDj0DflZfBrA/OdEarmEjH/BWaE7bi59Ym9Qa6ndWiAa9qtk2oHsMfxYX83qNzHeEkKS368aiJVzfcDhrPlhltvAeVzCV8VGopXK1mRHH2SO9oDar/qjVLQiTvm/RIguV+r/IkbZ4l5riHem2iHVdsdaCZccRo8C8jnFZ82x0VQu+azsg5OsLcS69Jo86w2dZIGGcV1aAnd4mDhNWtZQnc865yOact6DSYxy7xUm5KUngD6rGAsZfe9idAivPFLNMu67Z/U6cL0TSUYgNM4+YzIhXlnk2g7qmyPyC5qZJhdzMACFMzZqYTRqzeApDQcY/jVw4Denuo8s08kFf4O6Fi3Y7zx+mQp9V0RIfGFyA87cYO7845m05KyTDUG/BOA/RMjVujH386oNdwIncpzTYyzSreXesnv3ZMLZMJU51KoJYE6Bg=" #SONAR_TOKEN
+    - DOCKER_IMAGE_NAME=ismaelcabanas14/storeroom-rest-api
 
 script:
   - ./gradlew check test integrationTest jacocoTestCoverageVerification jacocoTestReport
   - sonar-scanner -X
+  - docker build -t $DOCKER_IMAGE_NAME .
+  - docker run -it -p 8000:8000 -d $DOCKER_IMAGE_NAME
+  - ./gradlew acceptanceTest
 
 addons:
   sonarcloud:
