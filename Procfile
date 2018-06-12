@@ -1,1 +1,1 @@
-web:    java $JAVA_OPTS -jar storeroom-rest-api/build/libs/storeroom-rest-api.jar
+web:    java $JAVA_OPTS -jar build/libs/storeroom-rest-api.jar
