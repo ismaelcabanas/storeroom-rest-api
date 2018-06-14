@@ -10,6 +10,6 @@ import org.junit.runner.RunWith;
  */
 @RunWith(Karate.class)
 @CucumberOptions(features = "classpath:features/")
-public final class StoreroomAcceptanceTest {
+public final class StoreroomAcceptanceTestRunner {
 
 }
