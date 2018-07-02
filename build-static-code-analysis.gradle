@@ -2,6 +2,7 @@ apply plugin: 'pmd'
 apply plugin: 'findbugs'
 apply plugin: 'checkstyle'
 apply plugin: 'jacoco'
+apply plugin: 'org.sonarqube'
 
 pmd {
     ruleSetFiles = files("$rootProject.projectDir/config/pmd/pmd-ruleset.xml")
