@@ -1,8 +1,8 @@
 package cabanas.garcia.ismael.storeroom.product.api.controller;
 
 
-import cabanas.garcia.ismael.storeroom.product.api.request.NewProductRequest;
-import cabanas.garcia.ismael.storeroom.product.api.response.ProductCreatedResponse;
+import cabanas.garcia.ismael.storeroom.product.api.controller.request.NewProductRequest;
+import cabanas.garcia.ismael.storeroom.product.api.controller.response.ProductCreatedResponse;
 import cabanas.garcia.ismael.storeroom.product.application.NewProductApplicationService;
 import cabanas.garcia.ismael.storeroom.product.domain.Product;
 import cabanas.garcia.ismael.storeroom.product.domain.ProductId;
@@ -54,9 +54,8 @@ public class NewProductControllerShould {
             .build();
 
     // given
-    given(newProductApplicationService.execute(ProductName.productName()
-            .withName(SOME_PRODUCT_NAME)
-            .build()))
+    given(newProductApplicationService.execute(newProductRequest.getId(),
+              newProductRequest.getName()))
             .willReturn(Product.product()
                     .withName(ProductName.productName().withName(SOME_PRODUCT_NAME).build())
                     .withId(ProductId.productId().withId(SOME_UUID).build())
@@ -74,7 +73,8 @@ public class NewProductControllerShould {
     assertThat(response.getHeaderValue(HttpHeaders.LOCATION)).isEqualTo("/products/" + SOME_UUID);
     assertThat(response.getContentAsString()).isEqualTo(
             jsonResponse.write(ProductCreatedResponse.productCreatedResponse()
-                    .withName(ProductName.productName().withName(SOME_PRODUCT_NAME).build())
+                    .withId(SOME_UUID)
+                    .withName(SOME_PRODUCT_NAME)
                     .build()).getJson());
   }
 }
