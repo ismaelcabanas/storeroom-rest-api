@@ -54,8 +54,9 @@ public class NewProductControllerShould {
             .build();
 
     // given
-    given(newProductApplicationService.execute(newProductRequest.getId(),
-              newProductRequest.getName()))
+    given(newProductApplicationService.execute(
+              ProductId.productId().withId(newProductRequest.getId()).build(),
+              ProductName.productName().withName(newProductRequest.getName()).build()))
             .willReturn(Product.product()
                     .withName(ProductName.productName().withName(SOME_PRODUCT_NAME).build())
                     .withId(ProductId.productId().withId(SOME_UUID).build())
