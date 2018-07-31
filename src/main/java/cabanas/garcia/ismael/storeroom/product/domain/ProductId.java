@@ -2,8 +2,8 @@ package cabanas.garcia.ismael.storeroom.product.domain;
 
 import java.util.Objects;
 
-public class ProductId {
-  private String id;
+public final class ProductId {
+  private final String id;
 
   private ProductId(Builder builder) {
     this.id = builder.id;

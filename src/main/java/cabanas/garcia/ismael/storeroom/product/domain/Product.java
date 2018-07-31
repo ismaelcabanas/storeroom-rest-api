@@ -2,7 +2,7 @@ package cabanas.garcia.ismael.storeroom.product.domain;
 
 import java.util.Objects;
 
-public class Product {
+public final class Product {
   private final ProductName productName;
   private final ProductId productId;
 

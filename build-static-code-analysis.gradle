@@ -44,7 +44,7 @@ jacocoTestCoverageVerification {
     violationRules {
         rule {
             limit {
-                minimum = 0.3 // our tests should cover minimun of 70%, if violate the rule the build will fail
+                minimum = 0.5 // our tests should cover minimun of 70%, if violate the rule the build will fail
             }
         }
     }
