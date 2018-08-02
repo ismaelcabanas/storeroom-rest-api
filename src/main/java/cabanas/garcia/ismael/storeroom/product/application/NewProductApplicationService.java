@@ -13,7 +13,7 @@ public class NewProductApplicationService {
   }
 
   public Product execute(ProductId productId, ProductName productName) {
-    return productRepository.create(Product.product()
+    return productRepository.save(Product.product()
             .withName(productName)
             .withId(productId)
             .build());

@@ -1,5 +1,6 @@
-package cabanas.garcia.ismael.storeroom.product.infrastructure.framework;
+package cabanas.garcia.ismael.storeroom.product;
 
+import cabanas.garcia.ismael.storeroom.Application;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -37,7 +37,7 @@ public class NewProductApplicationServiceShould {
     ProductId productId = ProductIdStub.random();
     Product product = ProductStub.create(productId, productName);
     Product newProduct = Product.product().withName(productName).withId(productId).build();
-    given(productRepository.create(product)).willReturn(newProduct);
+    given(productRepository.save(product)).willReturn(newProduct);
 
     // when
     Product actual = newProductApplicationService.execute(productId, productName);
@@ -55,12 +55,12 @@ public class NewProductApplicationServiceShould {
     ProductId productId = ProductIdStub.random();
     Product product = ProductStub.create(productId, productName);
     Product newProduct = Product.product().withName(productName).withId(productId).build();
-    given(productRepository.create(product)).willReturn(newProduct);
+    given(productRepository.save(product)).willReturn(newProduct);
 
     // when
     newProductApplicationService.execute(productId, productName);
 
     // then
-    verify(productRepository).create(product);
+    verify(productRepository).save(product);
   }
 }
