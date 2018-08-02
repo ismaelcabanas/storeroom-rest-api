@@ -1,2 +1,15 @@
 server:
   port: 8000
+
+spring:
+  application:
+    name: storeroom-rest-api
+  main:
+    banner-mode: "OFF"
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      maximum-pool-size: 30
+      pool-name: storeroom-rest-api
+      minimum-idle: 5
