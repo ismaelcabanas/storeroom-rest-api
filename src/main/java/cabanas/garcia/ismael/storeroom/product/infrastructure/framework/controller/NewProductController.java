@@ -1,7 +1,7 @@
-package cabanas.garcia.ismael.storeroom.product.api.controller;
+package cabanas.garcia.ismael.storeroom.product.infrastructure.framework.controller;
 
-import cabanas.garcia.ismael.storeroom.product.api.controller.request.NewProductRequest;
-import cabanas.garcia.ismael.storeroom.product.api.controller.response.ProductCreatedResponse;
+import cabanas.garcia.ismael.storeroom.product.infrastructure.framework.controller.request.NewProductRequest;
+import cabanas.garcia.ismael.storeroom.product.infrastructure.framework.controller.response.ProductCreatedResponse;
 import cabanas.garcia.ismael.storeroom.product.application.NewProductApplicationService;
 import cabanas.garcia.ismael.storeroom.product.domain.Product;
 import cabanas.garcia.ismael.storeroom.product.domain.ProductId;

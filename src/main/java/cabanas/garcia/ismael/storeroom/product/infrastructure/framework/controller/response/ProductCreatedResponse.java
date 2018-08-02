@@ -1,16 +1,15 @@
-package cabanas.garcia.ismael.storeroom.product.api.controller.request;
+package cabanas.garcia.ismael.storeroom.product.infrastructure.framework.controller.response;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-@JsonDeserialize(builder = NewProductRequest.Builder.class)
-public class NewProductRequest {
-
-  private final String id;
+@JsonDeserialize(builder = ProductCreatedResponse.Builder.class)
+public class ProductCreatedResponse {
   private final String name;
+  private final String id;
 
-  private NewProductRequest(Builder builder) {
-    this.id = builder.id;
+  private ProductCreatedResponse(Builder builder) {
     this.name = builder.name;
+    this.id = builder.id;
   }
 
   public String getId() {
@@ -21,13 +20,13 @@ public class NewProductRequest {
     return name;
   }
 
-  public static Builder newProductRequest() {
+  public static Builder productCreatedResponse() {
     return new Builder();
   }
 
   public static final class Builder {
-    private String id;
     private String name;
+    private String id;
 
     private Builder() {
     }
@@ -42,8 +41,8 @@ public class NewProductRequest {
       return this;
     }
 
-    public NewProductRequest build() {
-      return new NewProductRequest(this);
+    public ProductCreatedResponse build() {
+      return new ProductCreatedResponse(this);
     }
   }
 }
