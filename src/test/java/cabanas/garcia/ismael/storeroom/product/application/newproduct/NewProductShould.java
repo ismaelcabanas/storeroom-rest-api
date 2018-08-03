@@ -1,5 +1,6 @@
-package cabanas.garcia.ismael.storeroom.product.application;
+package cabanas.garcia.ismael.storeroom.product.application.newproduct;
 
+import cabanas.garcia.ismael.storeroom.product.application.newproduct.NewProduct;
 import cabanas.garcia.ismael.storeroom.product.domain.Product;
 import cabanas.garcia.ismael.storeroom.product.domain.ProductId;
 import cabanas.garcia.ismael.storeroom.product.domain.ProductIdStub;
@@ -16,18 +17,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-public class NewProductApplicationServiceShould {
+public class NewProductShould {
 
   @Mock
   private ProductRepository productRepository;
 
-  private NewProductApplicationService newProductApplicationService;
+  private NewProduct newProduct;
 
   @Before
   public void setUp() {
     // With this call to initMocks we tell Mockito to process the annotations
     MockitoAnnotations.initMocks(this);
-    newProductApplicationService = new NewProductApplicationService(productRepository);
+    newProduct = new NewProduct(productRepository);
   }
 
   @Test
@@ -40,7 +41,7 @@ public class NewProductApplicationServiceShould {
     given(productRepository.save(product)).willReturn(newProduct);
 
     // when
-    Product actual = newProductApplicationService.execute(productId, productName);
+    Product actual = this.newProduct.execute(productId, productName);
 
     // then
     assertThat(actual).isNotNull();
@@ -58,7 +59,7 @@ public class NewProductApplicationServiceShould {
     given(productRepository.save(product)).willReturn(newProduct);
 
     // when
-    newProductApplicationService.execute(productId, productName);
+    this.newProduct.execute(productId, productName);
 
     // then
     verify(productRepository).save(product);

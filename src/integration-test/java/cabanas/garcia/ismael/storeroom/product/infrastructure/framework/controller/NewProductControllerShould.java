@@ -3,11 +3,10 @@ package cabanas.garcia.ismael.storeroom.product.infrastructure.framework.control
 
 import cabanas.garcia.ismael.storeroom.product.infrastructure.framework.controller.request.NewProductRequest;
 import cabanas.garcia.ismael.storeroom.product.infrastructure.framework.controller.response.ProductCreatedResponse;
-import cabanas.garcia.ismael.storeroom.product.application.NewProductApplicationService;
+import cabanas.garcia.ismael.storeroom.product.application.newproduct.NewProduct;
 import cabanas.garcia.ismael.storeroom.product.domain.Product;
 import cabanas.garcia.ismael.storeroom.product.domain.ProductId;
 import cabanas.garcia.ismael.storeroom.product.domain.ProductName;
-import cabanas.garcia.ismael.storeroom.product.infrastructure.framework.controller.NewProductController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,7 +37,7 @@ public class NewProductControllerShould {
   private MockMvc mvc;
 
   @MockBean
-  private NewProductApplicationService newProductApplicationService;
+  private NewProduct newProduct;
 
   private JacksonTester<NewProductRequest> jsonResult;
   private JacksonTester<ProductCreatedResponse> jsonResponse;
@@ -55,7 +54,7 @@ public class NewProductControllerShould {
             .build();
 
     // given
-    given(newProductApplicationService.execute(
+    given(newProduct.execute(
               ProductId.productId().withId(newProductRequest.getId()).build(),
               ProductName.productName().withName(newProductRequest.getName()).build()))
             .willReturn(Product.product()
