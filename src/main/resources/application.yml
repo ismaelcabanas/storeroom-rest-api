@@ -13,3 +13,12 @@ spring:
       maximum-pool-size: 30
       pool-name: storeroom-rest-api
       minimum-idle: 5
+
+flyway:
+  locations: classpath:db/migration
+  schemas: storeroom
+
+storeroom:
+  database:
+    query.timeout.seconds: 60
+    schema: storeroom

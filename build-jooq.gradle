@@ -1,0 +1,116 @@
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile("org.jooq:jooq:3.9.3")
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'org.jooq:jooq-codegen:3.9.3'
+        classpath "org.postgresql:postgresql:${postgresVersion}"
+        classpath group: 'org.yaml', name: 'snakeyaml', version: '1.18'
+    }
+}
+
+def getJooqProperties() {
+    def yaml = new org.yaml.snakeyaml.Yaml()
+
+    def appDevProps = yaml.load(file('src/main/resources/application-dev.yml').text)
+    def jooqProperties = appDevProps['spring']['datasource']
+    jooqProperties.packageName = appDevProps['jooq']['package-name']
+    jooqProperties.database = appDevProps['jooq']['database']
+
+    def appProps = yaml.load(file('src/main/resources/application.yml').text)
+    jooqProperties.driver = appProps['spring']['datasource']['driver-class-name']
+    jooqProperties.schema = appProps['storeroom']['database']['schema']
+    jooqProperties.locations = appProps['flyway']['locations']
+
+    if(jooqProperties.locations.contains("classpath:")) {
+        jooqProperties.locations = jooqProperties.locations.replace("classpath:", "filesystem:$project.projectDir/src/main/resources/")
+    }
+
+    if(jooqProperties['url'].contains('${docker.host}')) {
+        def docker_ip = System.getenv('DOCKER_IP') ?: "localhost"
+        jooqProperties['url'] = jooqProperties['url'].replace('${docker.host}', docker_ip)
+    }
+
+    if(jooqProperties['url'].contains('${storeroom.database.schema}')) {
+        jooqProperties['url'] = jooqProperties['url'].replace('${storeroom.database.schema}', jooqProperties.schema)
+    }
+
+    return jooqProperties
+}
+
+def jooqProperties = getJooqProperties()
+
+task jooqGenerate {
+    doLast {
+        // Use your favourite XML builder to construct the code generation configuration file
+        // ----------------------------------------------------------------------------------
+        def writer = new StringWriter()
+        def xml = new groovy.xml.MarkupBuilder(writer)
+                .configuration('xmlns': 'http://www.jooq.org/xsd/jooq-codegen-3.9.2.xsd') {
+            jdbc() {
+                driver("${jooqProperties['driver']}")
+                url("${jooqProperties['url']}")
+                user("${jooqProperties['username']}")
+                password("${jooqProperties['password']}")
+            }
+            generator() {
+                name('org.jooq.util.DefaultGenerator')
+                database() {
+                    name("${jooqProperties['database']}")
+                    inputSchema("${jooqProperties['schema']}")
+                    schemaVersionProvider("SELECT :schema_name || '_' || MAX(\"version\") FROM ${jooqProperties['schema']}.schema_version")
+                    includes('.*')
+                    excludes('schema_version | dms_(.*) | pending_messages(.*)')
+                    forcedTypes() {
+                        forcedType() {
+                            userType('com.google.gson.JsonElement')
+                            binding("${jooqProperties['packageName']}.binding.PostgresJSONGsonBinding")
+                            expression('.*')
+                            types('JSON')
+                        }
+                    }
+                }
+                strategy() {
+                    name('org.jooq.util.DefaultGeneratorStrategy')
+                }
+                generate() {
+                }
+                target() {
+                    packageName("${jooqProperties['packageName']}.autogen")
+                    directory('src/main/java')
+                }
+            }
+        }
+
+        // Run the code generator
+        // ----------------------
+        org.jooq.util.GenerationTool.generate(
+                javax.xml.bind.JAXB.unmarshal(new StringReader(writer.toString()), org.jooq.util.jaxb.Configuration.class)
+        )
+    }
+}
+
+configure(jooqGenerate) {
+    group = 'jooq'
+    description = 'Generate Jooq clases from database'
+}
+
+flyway {
+    url = "${jooqProperties['url']}"
+    user = "${jooqProperties['username']}"
+    password = "${jooqProperties['password']}"
+    schemas = ["${jooqProperties['schema']}"]
+    locations = ["${jooqProperties['locations']}"]
+    baselineOnMigrate = true
+}
+
+jooqGenerate.dependsOn flywayMigrate

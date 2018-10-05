@@ -1,9 +1,18 @@
 package cabanas.garcia.ismael.storeroom.product.infrastructure.framework.repository;
 
-import cabanas.garcia.ismael.storeroom.product.domain.*;
+import cabanas.garcia.ismael.storeroom.product.domain.Product;
+import cabanas.garcia.ismael.storeroom.product.domain.ProductId;
+import cabanas.garcia.ismael.storeroom.product.domain.ProductIdStub;
+import cabanas.garcia.ismael.storeroom.product.domain.ProductName;
+import cabanas.garcia.ismael.storeroom.product.domain.ProductNameStub;
+import cabanas.garcia.ismael.storeroom.product.domain.ProductRepository;
+import cabanas.garcia.ismael.storeroom.product.domain.ProductStub;
+import cabanas.garcia.ismael.storeroom.product.infrastructure.framework.configuration.DataBaseConfiguration;
+import cabanas.garcia.ismael.storeroom.product.infrastructure.framework.configuration.RepositoryConfiguration;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -15,14 +24,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-@AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE) // https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-testing.html#boot-features-testing-spring-boot-applications-testing-autoconfigured-jpa-test
+@ImportAutoConfiguration({RepositoryConfiguration.class, DataBaseConfiguration.class})
+// https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-testing.html#
+// boot-features-testing-spring-boot-applications-testing-autoconfigured-jpa-test
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("integration-test")
 public class PostgresProductRepositoryShould {
-
-  private ProductRepository productRepository;
-
   @Autowired
-  private ProductCrudRepository productCrudRepository;
+  private ProductRepository productRepository;
 
   @Autowired
   private JdbcTemplate jdbcTemplate;
@@ -33,7 +42,6 @@ public class PostgresProductRepositoryShould {
     ProductName productName = ProductNameStub.random();
     ProductId productId = ProductIdStub.random();
     Product product = ProductStub.create(productId, productName);
-    productRepository = new PostgresProductRepository(productCrudRepository);
 
     // when
     productRepository.save(product);

@@ -12,3 +12,7 @@ spring:
         jdbc:
           lob:
             non_contextual_creation: true # https://github.com/pgjdbc/pgjdbc/issues/1102
+
+jooq:
+  package-name: cabanas.garcia.ismael.storeroom.product.infrastructure.framework.repository.jooq
+  database: org.jooq.util.postgres.PostgresDatabase

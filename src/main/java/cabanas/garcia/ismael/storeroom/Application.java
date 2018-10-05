@@ -6,8 +6,8 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 @SpringBootApplication(scanBasePackages = {
         "cabanas.garcia.ismael.storeroom.product.infrastructure.framework.configuration",
-        "cabanas.garcia.ismael.storeroom.product.infrastructure.framework.controller"
-})
+        "cabanas.garcia.ismael.storeroom.product.infrastructure.framework.controller"}
+    )
 @SuppressWarnings("PMD.UseUtilityClass")
 public class Application {
   public static void main(String[] args) {

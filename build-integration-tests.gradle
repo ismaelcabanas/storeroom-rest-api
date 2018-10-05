@@ -1,3 +1,4 @@
+apply plugin: 'docker-compose'
 configurations {
     integrationtestCompile.extendsFrom testCompile
     integrationtestRuntime.extendsFrom testRuntime
@@ -21,5 +22,16 @@ task integrationTest(type: Test) {
         events "passed", "skipped", "failed"
     }
 }
-
+dockerCompose.isRequiredBy(integrationTest)
+dockerCompose {
+    useComposeFiles = ['docker-compose.yml'] // like 'docker-compose -f <file>'
+    captureContainersOutput = true // prints output of all containers to Gradle output - very useful for debugging
+    stopContainers = true // doesn't call `docker-compose down` - useful for debugging
+    removeContainers = true
+    removeOrphans = true
+}
+integrationTest.doFirst {
+    systemProperty 'postgres.host', dockerCompose.servicesInfos.postgresql.'postgresql_1'.host
+    systemProperty 'postgres.port', dockerCompose.servicesInfos.postgresql.'postgresql_1'.port
+}
 integrationTest.mustRunAfter test

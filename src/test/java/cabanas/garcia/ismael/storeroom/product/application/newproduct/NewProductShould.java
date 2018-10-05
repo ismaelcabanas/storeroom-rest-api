@@ -1,6 +1,5 @@
 package cabanas.garcia.ismael.storeroom.product.application.newproduct;
 
-import cabanas.garcia.ismael.storeroom.product.application.newproduct.NewProduct;
 import cabanas.garcia.ismael.storeroom.product.domain.Product;
 import cabanas.garcia.ismael.storeroom.product.domain.ProductId;
 import cabanas.garcia.ismael.storeroom.product.domain.ProductIdStub;
@@ -37,8 +36,7 @@ public class NewProductShould {
     ProductName productName = ProductNameStub.random();
     ProductId productId = ProductIdStub.random();
     Product product = ProductStub.create(productId, productName);
-    Product newProduct = Product.product().withName(productName).withId(productId).build();
-    given(productRepository.save(product)).willReturn(newProduct);
+    given(productRepository.save(product)).willReturn(product);
 
     // when
     Product actual = this.newProduct.execute(productId, productName);
@@ -55,8 +53,7 @@ public class NewProductShould {
     ProductName productName = ProductNameStub.random();
     ProductId productId = ProductIdStub.random();
     Product product = ProductStub.create(productId, productName);
-    Product newProduct = Product.product().withName(productName).withId(productId).build();
-    given(productRepository.save(product)).willReturn(newProduct);
+    given(productRepository.save(product)).willReturn(product);
 
     // when
     this.newProduct.execute(productId, productName);

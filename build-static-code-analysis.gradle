@@ -34,12 +34,15 @@ jacocoTestReport {
     afterEvaluate {
         classDirectories = files(classDirectories.files.collect {
             fileTree(dir: it, exclude: [
-                    '**/*Application**'
+                    '**/*Application**',
+                    '**/*Configuration',
+                    '**/jooq/*'
             ])
         })
     }
 }
 
+/*
 jacocoTestCoverageVerification {
     violationRules {
         rule {
@@ -49,11 +52,12 @@ jacocoTestCoverageVerification {
         }
     }
 }
+*/
 
 test {
     jacoco {
         append = false
-        excludes = ['*Application*']
+        excludes = ['*Application*','**/*Configuration', '**/jooq/*']
     }
 }
 
