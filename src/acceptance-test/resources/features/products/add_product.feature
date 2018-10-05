@@ -10,8 +10,8 @@ Feature: Add a product throught a REST API
 
   Scenario: with all the required information
     Given path '/products'
-    And request {name: 'Huevos'}
+    And request {id: 'cfd5056c-0f89-476b-a9eb-f1865d9e36e6', name: 'Leche'}
     When method post
     Then status 201
-    And match $ == {name: 'Huevos'}
+    And match $ == {id: 'cfd5056c-0f89-476b-a9eb-f1865d9e36e6', name: 'Leche'}
     And header location = '/products/#uuid'
