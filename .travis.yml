@@ -19,10 +19,7 @@ env:
 script:
   - ./gradlew check test integrationTest jacocoTestCoverageVerification jacocoTestReport
   - sonar-scanner -X
-  - docker build -t $DOCKER_IMAGE_NAME .
-  - docker-compose -f docker-compose-acceptance.yml up -d
-  - wait 4
-  - ./gradlew acceptanceTest
+  - ./runAcceptanceTestsInDockerContainers.sh
 
 addons:
   sonarcloud:
