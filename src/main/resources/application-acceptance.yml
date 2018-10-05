@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: "jdbc:postgresql://db:5432/postgres?currentSchema=storeroom"
+    username: postgres
+    password: inf123sboj
+  jpa:
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true # https://github.com/pgjdbc/pgjdbc/issues/1102
+
+jooq:
+  package-name: cabanas.garcia.ismael.storeroom.product.infrastructure.framework.repository.jooq
+  database: org.jooq.util.postgres.PostgresDatabase

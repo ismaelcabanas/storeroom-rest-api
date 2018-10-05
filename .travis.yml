@@ -20,7 +20,7 @@ script:
   - ./gradlew check test integrationTest jacocoTestCoverageVerification jacocoTestReport
   - sonar-scanner -X
   - docker build -t $DOCKER_IMAGE_NAME .
-  - docker run -it -p 8000:8000 -d $DOCKER_IMAGE_NAME
+  - docker-compose -f docker-compose-acceptance.yml up -d
   - ./gradlew acceptanceTest
 
 addons:

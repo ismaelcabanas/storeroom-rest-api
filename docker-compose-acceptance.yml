@@ -1,0 +1,19 @@
+version: '3.4'
+
+services:
+
+  storeroom-api:
+    image: ${DOCKER_IMAGE_NAME}
+    build: .
+    ports:
+      - 8000:8000
+    environment:
+      - "SPRING_PROFILES_ACTIVE=acceptance"
+    
+  db:
+    image: postgres:9.6
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: "inf123sboj"
+    command: postgres

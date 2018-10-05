@@ -5,5 +5,5 @@ function() {
     if (!port) {
         port = karate.env == 'web' ? 8090 : 8080;
     }
-    return { baseUrl: 'http://127.0.0.1:8000' };
+    return { baseUrl: 'http://localhost:8000' };
 }
