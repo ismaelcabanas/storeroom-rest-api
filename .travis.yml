@@ -21,6 +21,7 @@ script:
   - sonar-scanner -X
   - docker build -t $DOCKER_IMAGE_NAME .
   - docker-compose -f docker-compose-acceptance.yml up -d
+  - wait 4
   - ./gradlew acceptanceTest
 
 addons:
@@ -29,7 +30,7 @@ addons:
     token:
       secure: "$SONAR_TOKEN"
 
-after_success:
+before_deploy:
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
   - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH; fi`
   - docker tag $DOCKER_IMAGE_NAME $DOCKER_IMAGE_NAME:$TAG
