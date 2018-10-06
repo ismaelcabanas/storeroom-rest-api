@@ -62,8 +62,3 @@ dependencies {
 bootRun.doFirst {
     systemProperty "spring.profiles.active", "dev"
 }
-
-test {
-    // finalizedBy provided by Gradle. Execute jacocoTestReport task when finalize test task
-    finalizedBy jacocoTestReport
-}
