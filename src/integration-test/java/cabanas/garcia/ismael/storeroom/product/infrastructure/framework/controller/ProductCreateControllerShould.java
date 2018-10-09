@@ -1,16 +1,14 @@
 package cabanas.garcia.ismael.storeroom.product.infrastructure.framework.controller;
 
 
+import cabanas.garcia.ismael.storeroom.product.application.create.ProductCreator;
 import cabanas.garcia.ismael.storeroom.product.infrastructure.framework.controller.request.NewProductRequest;
 import cabanas.garcia.ismael.storeroom.product.infrastructure.framework.controller.response.ProductCreatedResponse;
-import cabanas.garcia.ismael.storeroom.product.application.newproduct.NewProduct;
-import cabanas.garcia.ismael.storeroom.product.domain.Product;
-import cabanas.garcia.ismael.storeroom.product.domain.ProductId;
-import cabanas.garcia.ismael.storeroom.product.domain.ProductName;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.json.JacksonTester;
@@ -24,13 +22,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willDoNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(NewProductController.class)
+@WebMvcTest(ProductCreateController.class)
 @ActiveProfiles("integration-test")
-public class NewProductControllerShould {
+public class ProductCreateControllerShould {
 
   private static final String SOME_PRODUCT_NAME = "some product name";
   private static final String SOME_UUID = "some-uuid";
@@ -39,7 +37,7 @@ public class NewProductControllerShould {
   private MockMvc mvc;
 
   @MockBean
-  private NewProduct newProduct;
+  private ProductCreator productCreator;
 
   private JacksonTester<NewProductRequest> jsonResult;
   private JacksonTester<ProductCreatedResponse> jsonResponse;
@@ -51,18 +49,12 @@ public class NewProductControllerShould {
 
   @Test
   public void postNewProductWithAllInformation() throws Exception {
+    // given
     NewProductRequest newProductRequest = NewProductRequest.newProductRequest()
+            .withId(SOME_UUID)
             .withName(SOME_PRODUCT_NAME)
             .build();
-
-    // given
-    given(newProduct.execute(
-              ProductId.productId().withId(newProductRequest.getId()).build(),
-              ProductName.productName().withName(newProductRequest.getName()).build()))
-            .willReturn(Product.product()
-                    .withName(ProductName.productName().withName(SOME_PRODUCT_NAME).build())
-                    .withId(ProductId.productId().withId(SOME_UUID).build())
-                    .build());
+    willDoNothing().given(productCreator).execute(Mockito.any());
 
     // when
     MockHttpServletResponse response = mvc.perform(
@@ -76,7 +68,6 @@ public class NewProductControllerShould {
     assertThat(response.getHeaderValue(HttpHeaders.LOCATION)).isEqualTo("/products/" + SOME_UUID);
     assertThat(response.getContentAsString()).isEqualTo(
             jsonResponse.write(ProductCreatedResponse.productCreatedResponse()
-                    .withId(SOME_UUID)
                     .withName(SOME_PRODUCT_NAME)
                     .build()).getJson());
   }

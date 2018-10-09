@@ -17,7 +17,7 @@ env:
     - DOCKER_IMAGE_NAME=ismaelcabanas14/storeroom-rest-api
 
 script:
-  - ./gradlew check test integrationTest
+  - ./gradlew build integrationTest
   - ./runAcceptanceTestsInDockerContainers.sh
   - ./gradlew jacocoTestCoverageVerification jacocoTestReport
   - sonar-scanner -X

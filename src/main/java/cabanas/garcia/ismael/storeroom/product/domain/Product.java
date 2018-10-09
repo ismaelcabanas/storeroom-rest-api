@@ -1,8 +1,10 @@
 package cabanas.garcia.ismael.storeroom.product.domain;
 
+import cabanas.garcia.ismael.shared.domain.aggregate.AggregateRoot;
+
 import java.util.Objects;
 
-public final class Product {
+public final class Product extends AggregateRoot {
   private final ProductName productName;
   private final ProductId productId;
 
@@ -38,6 +40,20 @@ public final class Product {
   @Override
   public int hashCode() {
     return Objects.hash(productId);
+  }
+
+  public static Product create(ProductId productId, ProductName productName) {
+    Product product = Product.product()
+            .withId(productId)
+            .withName(productName)
+            .build();
+
+    product.record(ProductCreatedDomainEvent.builder()
+            .withId(product.getId())
+            .withName(product.getName())
+            .build());
+
+    return product;
   }
 
   public static final class Builder {
