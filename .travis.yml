@@ -5,6 +5,10 @@ services:
 
 language: java
 
+branches:
+  only:
+    - master
+
 jdk:
   - oraclejdk8
 
