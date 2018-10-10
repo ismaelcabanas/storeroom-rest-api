@@ -4,7 +4,7 @@ import cabanas.garcia.ismael.shared.domain.event.DomainEvent;
 
 import java.util.Objects;
 
-public final class ProductCreatedDomainEvent implements DomainEvent {
+public final class ProductCreatedDomainEvent extends DomainEvent {
   private final String id;
   private final String name;
 
