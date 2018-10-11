@@ -7,12 +7,14 @@ public final class Storeroom extends AggregateRoot<Storeroom, StoreroomId> {
 
   private final StoreroomName name;
   private final StoreroomId id;
+  private final Products products;
 
   private Storeroom(Builder builder) {
     Preconditions.checkNotNull(builder.id, "StoreroomId should not be null");
     Preconditions.checkNotNull(builder.name, "StoreroomName should not be null");
     this.name = builder.name;
     this.id = builder.id;
+    this.products = Products.EMPTY;
   }
 
   public static Builder builder() {
@@ -39,6 +41,10 @@ public final class Storeroom extends AggregateRoot<Storeroom, StoreroomId> {
     }
 
     return false;
+  }
+
+  public boolean isEmpty() {
+    return products.isEmpty();
   }
 
   public static final class Builder {

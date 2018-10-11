@@ -65,4 +65,17 @@ public class StoreroomShould {
             .isInstanceOf(NullPointerException.class)
             .hasMessage("StoreroomId should not be null");
   }
+
+  @Test
+  public void have_empty_product_list_when_create_storeroom() {
+    // when
+    Storeroom storeroom = Storeroom.builder()
+            .withId(SOME_ID)
+            .withName(SOME_NAME)
+            .build();
+
+    // then
+    assertThat(storeroom.isEmpty()).isTrue();
+  }
+
 }
