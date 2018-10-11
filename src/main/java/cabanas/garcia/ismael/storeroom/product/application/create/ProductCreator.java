@@ -17,7 +17,7 @@ public class ProductCreator {
 
   public void execute(ProductCreateCommand command) {
     Product product = Product.create(
-            ProductId.productId().withId(command.getId()).build(),
+            new ProductId(command.getId()),
             ProductName.productName().withName(command.getName()).build()
     );
 

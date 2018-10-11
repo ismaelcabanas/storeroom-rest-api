@@ -7,7 +7,7 @@ public final class ProductCreatedDomainEventStub {
 
   public static ProductCreatedDomainEvent create(ProductId productId, ProductName productName) {
     return ProductCreatedDomainEvent.builder()
-            .withId(productId.getId())
+            .withId(productId.getValue())
             .withName(productName.getName())
             .build();
   }

@@ -1,6 +1,6 @@
 package cabanas.garcia.ismael.storeroom.product.domain;
 
-import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 
 public final class ProductNameStub {
   private ProductNameStub() {

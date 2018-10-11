@@ -6,6 +6,6 @@ import org.junit.Test;
 public class ProductShould {
   @Test
   public void equalsContract() {
-    EqualsVerifier.forClass(Product.class).withOnlyTheseFields("productId").verify();
+    EqualsVerifier.forClass(Product.class).withOnlyTheseFields("id").verify();
   }
 }

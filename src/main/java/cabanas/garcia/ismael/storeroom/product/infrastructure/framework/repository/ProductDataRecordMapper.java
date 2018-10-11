@@ -10,7 +10,7 @@ public class ProductDataRecordMapper implements RecordMapper<ProductsRecord, Pro
   @Override
   public Product map(ProductsRecord record) {
     return Product.product()
-            .withId(ProductId.productId().withId(record.getPId().toString()).build())
+            .withId(new ProductId(record.getPId().toString()))
             .withName(ProductName.productName().withName(record.getPName()).build())
             .build();
   }

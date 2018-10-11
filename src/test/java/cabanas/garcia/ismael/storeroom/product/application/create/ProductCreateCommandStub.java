@@ -10,7 +10,7 @@ public class ProductCreateCommandStub {
 
   public static ProductCreateCommand create(ProductId productId, ProductName productName) {
     return ProductCreateCommand.builder()
-            .withId(productId.getId())
+            .withId(productId.getValue())
             .withName(productName.getName())
             .build();
   }
