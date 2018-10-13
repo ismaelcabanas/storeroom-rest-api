@@ -1,13 +1,14 @@
 package cabanas.garcia.ismael.storeroom.domain;
 
 import cabanas.garcia.ismael.shared.domain.aggregate.AggregateRoot;
+import cabanas.garcia.ismael.storeroom.product.domain.Product;
 import com.google.common.base.Preconditions;
 
 public final class Storeroom extends AggregateRoot<Storeroom, StoreroomId> {
 
   private final StoreroomName name;
   private final StoreroomId id;
-  private final Products products;
+  private Products products;
 
   private Storeroom(Builder builder) {
     Preconditions.checkNotNull(builder.id, "StoreroomId should not be null");
@@ -45,6 +46,14 @@ public final class Storeroom extends AggregateRoot<Storeroom, StoreroomId> {
 
   public boolean isEmpty() {
     return products.isEmpty();
+  }
+
+  public Size productsSize() {
+    return products.size();
+  }
+
+  public void addProduct(Product product) {
+    this.products = products.add(product);
   }
 
   public static final class Builder {

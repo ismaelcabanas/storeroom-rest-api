@@ -1,5 +1,10 @@
 package cabanas.garcia.ismael.storeroom.domain;
 
+import cabanas.garcia.ismael.storeroom.product.domain.Product;
+import cabanas.garcia.ismael.storeroom.product.domain.ProductId;
+import cabanas.garcia.ismael.storeroom.product.domain.ProductIdStub;
+import cabanas.garcia.ismael.storeroom.product.domain.ProductName;
+import cabanas.garcia.ismael.storeroom.product.domain.ProductNameStub;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -9,6 +14,8 @@ public class StoreroomShould {
 
   private static final StoreroomName SOME_NAME = StoreroomNameStub.random();
   private static final StoreroomId SOME_ID = StoreroomIdStub.random();
+  private static final ProductId SOME_PRODUCT_ID = ProductIdStub.random();
+  private static final ProductName SOME_PRODUCT_NAME = ProductNameStub.random();
 
   @Test
   public void have_a_name() {
@@ -78,4 +85,22 @@ public class StoreroomShould {
     assertThat(storeroom.isEmpty()).isTrue();
   }
 
+  @Test
+  public void add_product_to_storeroom() {
+    // given
+    Storeroom storeroom = Storeroom.builder()
+            .withId(SOME_ID)
+            .withName(SOME_NAME)
+            .build();
+    Product product = Product.product()
+            .withId(SOME_PRODUCT_ID)
+            .withName(SOME_PRODUCT_NAME)
+            .build();
+
+    // when
+    storeroom.addProduct(product);
+
+    // then
+    assertThat(storeroom.productsSize()).isEqualTo(new Size(1));
+  }
 }

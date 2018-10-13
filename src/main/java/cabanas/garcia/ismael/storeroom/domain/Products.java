@@ -5,6 +5,7 @@ import cabanas.garcia.ismael.storeroom.product.domain.Product;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public final class Products extends ValueObject<Products> {
 
@@ -26,5 +27,14 @@ public final class Products extends ValueObject<Products> {
 
   public boolean isEmpty() {
     return products.size() == 0;
+  }
+
+  public Size size() {
+    return new Size(products.size());
+  }
+
+  public Products add(Product product) {
+    products.add(product);
+    return new Products(new ArrayList<>(products));
   }
 }
