@@ -15,7 +15,7 @@ public final class Storeroom extends AggregateRoot<Storeroom, StoreroomId> {
     Preconditions.checkNotNull(builder.name, "StoreroomName should not be null");
     this.name = builder.name;
     this.id = builder.id;
-    this.products = Products.EMPTY;
+    this.products = Products.empty();
   }
 
   public static Builder builder() {

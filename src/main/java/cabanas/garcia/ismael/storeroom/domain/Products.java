@@ -5,11 +5,9 @@ import cabanas.garcia.ismael.storeroom.product.domain.Product;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public final class Products extends ValueObject<Products> {
 
-  public static final Products EMPTY = new Products();
   private final List<Product> products;
 
   private Products() {
@@ -34,7 +32,20 @@ public final class Products extends ValueObject<Products> {
   }
 
   public Products add(Product product) {
-    products.add(product);
-    return new Products(new ArrayList<>(products));
+    if (exist(product)) {
+      throw new ProductAlreadyExistInStoreroomException(product.getId());
+    } else {
+      products.add(product);
+      return new Products(new ArrayList<>(this.products));
+    }
   }
+
+  public static Products empty() {
+    return new Products();
+  }
+
+  private boolean exist(final Product product) {
+    return this.products.stream().anyMatch(prod -> prod.equals(product));
+  }
+
 }

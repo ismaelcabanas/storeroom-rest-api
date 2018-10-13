@@ -1,6 +1,7 @@
 package cabanas.garcia.ismael.storeroom.domain;
 
 import cabanas.garcia.ismael.shared.domain.ValueObject;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.Objects;
 
@@ -32,5 +33,12 @@ public final class Size extends ValueObject<Size> {
   @Override
   public int hashCode() {
     return Objects.hash(value);
+  }
+
+  @Override
+  public String toString() {
+    return new ToStringBuilder(this)
+            .append("value", value)
+            .toString();
   }
 }

@@ -103,4 +103,27 @@ public class StoreroomShould {
     // then
     assertThat(storeroom.productsSize()).isEqualTo(new Size(1));
   }
+
+  @Test
+  public void throw_exception_when_add_existent_product_to_storeroom() {
+    // given
+    Storeroom storeroom = Storeroom.builder()
+            .withId(SOME_ID)
+            .withName(SOME_NAME)
+            .build();
+    Product product = Product.product()
+            .withId(SOME_PRODUCT_ID)
+            .withName(SOME_PRODUCT_NAME)
+            .build();
+    storeroom.addProduct(product);
+
+    // when
+    Throwable thrown = catchThrowable(() -> storeroom.addProduct(product));
+
+    // then
+    assertThat(thrown)
+            .isInstanceOf(ProductAlreadyExistInStoreroomException.class)
+            .hasMessage("The product " + SOME_PRODUCT_ID.getValue() + " already exist.");
+  }
+
 }
