@@ -7,11 +7,13 @@ import cabanas.garcia.ismael.storeroom.product.application.create.ProductCreator
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
 
-@RestController("/products")
+@RestController
+@RequestMapping(path = "/products")
 public class ProductCreateController {
 
   private final ProductCreator productCreator;
