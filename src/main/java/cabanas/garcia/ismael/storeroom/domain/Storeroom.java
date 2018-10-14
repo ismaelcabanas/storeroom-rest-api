@@ -2,6 +2,7 @@ package cabanas.garcia.ismael.storeroom.domain;
 
 import cabanas.garcia.ismael.shared.domain.aggregate.AggregateRoot;
 import cabanas.garcia.ismael.storeroom.product.domain.Product;
+import cabanas.garcia.ismael.storeroom.product.domain.ProductId;
 import com.google.common.base.Preconditions;
 
 public final class Storeroom extends AggregateRoot<Storeroom, StoreroomId> {
@@ -54,6 +55,14 @@ public final class Storeroom extends AggregateRoot<Storeroom, StoreroomId> {
 
   public void addProduct(Product product) {
     this.products = products.add(product);
+  }
+
+  public Product product(ProductId productId) {
+    return products.get(productId);
+  }
+
+  public Stock productStock(ProductId productId) {
+    return null;
   }
 
   public static final class Builder {

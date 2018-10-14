@@ -16,6 +16,7 @@ public class StoreroomShould {
   private static final StoreroomId SOME_ID = StoreroomIdStub.random();
   private static final ProductId SOME_PRODUCT_ID = ProductIdStub.random();
   private static final ProductName SOME_PRODUCT_NAME = ProductNameStub.random();
+  private static final ProductId SOME_NOT_EXIST_PRODUCT_ID = ProductIdStub.random();
 
   @Test
   public void have_a_name() {
@@ -122,8 +123,49 @@ public class StoreroomShould {
 
     // then
     assertThat(thrown)
-            .isInstanceOf(ProductAlreadyExistInStoreroomException.class)
+            .isInstanceOf(ProductAlreadyExistException.class)
             .hasMessage("The product " + SOME_PRODUCT_ID.getValue() + " already exist.");
   }
 
+  @Test
+  public void throw_exception_when_get_product_from_storeroom_and_not_exist() {
+    // given
+    Storeroom storeroom = Storeroom.builder()
+            .withId(SOME_ID)
+            .withName(SOME_NAME)
+            .build();
+    Product product = Product.product()
+            .withId(SOME_PRODUCT_ID)
+            .withName(SOME_PRODUCT_NAME)
+            .build();
+    storeroom.addProduct(product);
+
+    // when
+    Throwable thrown = catchThrowable(() -> storeroom.product(SOME_NOT_EXIST_PRODUCT_ID));
+
+    // then
+    assertThat(thrown)
+            .isInstanceOf(ProductNotExistException.class)
+            .hasMessage("The product " + SOME_NOT_EXIST_PRODUCT_ID.getValue() + " doesn't exist.");
+  }
+
+  @Test
+  public void get_product_from_storeroom() {
+    // given
+    Storeroom storeroom = Storeroom.builder()
+            .withId(SOME_ID)
+            .withName(SOME_NAME)
+            .build();
+    Product productInStoreroom = Product.product()
+            .withId(SOME_PRODUCT_ID)
+            .withName(SOME_PRODUCT_NAME)
+            .build();
+    storeroom.addProduct(productInStoreroom);
+
+    // when
+    Product product = storeroom.product(SOME_PRODUCT_ID);
+
+    // then
+    assertThat(product).isEqualTo(productInStoreroom);
+  }
 }

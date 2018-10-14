@@ -1,6 +1,7 @@
 package cabanas.garcia.ismael.storeroom.product.domain;
 
 import cabanas.garcia.ismael.shared.domain.aggregate.AggregateRoot;
+import cabanas.garcia.ismael.storeroom.domain.Stock;
 
 import java.util.Objects;
 
@@ -67,6 +68,10 @@ public final class Product extends AggregateRoot<Product, ProductId> {
             .build());
 
     return product;
+  }
+
+  public Stock stock() {
+    return null;
   }
 
   public static final class Builder {
