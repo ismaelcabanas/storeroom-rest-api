@@ -1,12 +1,13 @@
 package cabanas.garcia.ismael.shared.domain.aggregate;
 
+import cabanas.garcia.ismael.shared.domain.Entity;
 import cabanas.garcia.ismael.shared.domain.event.DomainEvent;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public abstract class AggregateRoot {
+public abstract class AggregateRoot<E, ID> extends Entity<E, ID> {
 
   private List<DomainEvent> domainEvents = new ArrayList<>();
 

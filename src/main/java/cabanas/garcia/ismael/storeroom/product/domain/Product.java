@@ -4,7 +4,7 @@ import cabanas.garcia.ismael.shared.domain.aggregate.AggregateRoot;
 
 import java.util.Objects;
 
-public final class Product extends AggregateRoot {
+public final class Product extends AggregateRoot<Product, ProductId> {
   private final ProductName productName;
   private final ProductId productId;
 
@@ -17,8 +17,13 @@ public final class Product extends AggregateRoot {
     return new Builder();
   }
 
-  public String getId() {
-    return productId.getId();
+  public ProductId getId() {
+    return productId;
+  }
+
+  @Override
+  protected boolean sameIdentityAs(Product other) {
+    return equals(other);
   }
 
   public String getName() {
@@ -49,7 +54,7 @@ public final class Product extends AggregateRoot {
             .build();
 
     product.record(ProductCreatedDomainEvent.builder()
-            .withId(product.getId())
+            .withId(product.getId().getId())
             .withName(product.getName())
             .build());
 

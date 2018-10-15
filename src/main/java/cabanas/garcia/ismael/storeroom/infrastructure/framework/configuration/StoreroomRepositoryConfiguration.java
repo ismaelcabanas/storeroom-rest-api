@@ -1,15 +1,20 @@
 package cabanas.garcia.ismael.storeroom.infrastructure.framework.configuration;
 
-import cabanas.garcia.ismael.storeroom.application.create.StoreroomCreator;
+import cabanas.garcia.ismael.storeroom.domain.Storeroom;
 import cabanas.garcia.ismael.storeroom.domain.StoreroomRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class UseCaseConfiguration {
+public class StoreroomRepositoryConfiguration {
 
   @Bean
-  public StoreroomCreator storeroomCreator(StoreroomRepository storeroomRepository) {
-    return new StoreroomCreator(storeroomRepository);
+  public StoreroomRepository storeroomRepository() {
+    return new StoreroomRepository() {
+      @Override
+      public void save(Storeroom storeroom) {
+
+      }
+    };
   }
 }

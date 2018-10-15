@@ -54,6 +54,9 @@ dependencies {
     // Flyway
     compile("org.flywaydb:flyway-core:5.0.6")
 
+    compile("com.google.guava:guava:18.0")
+    compile("org.apache.commons:commons-lang3:3.7")
+
     testCompile("org.springframework.boot:spring-boot-starter-test")
     testCompile("commons-lang:commons-lang:2.6")
     testCompile("nl.jqno.equalsverifier:equalsverifier:2.5")
