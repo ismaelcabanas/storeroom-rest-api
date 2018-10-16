@@ -26,7 +26,7 @@ public final class Storeroom extends AggregateRoot<Storeroom, StoreroomId> {
   }
 
   @Override
-  protected StoreroomId getId() {
+  public StoreroomId getId() {
     return id;
   }
 

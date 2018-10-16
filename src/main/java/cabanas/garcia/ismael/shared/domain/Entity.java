@@ -1,12 +1,12 @@
 package cabanas.garcia.ismael.shared.domain;
 
-public abstract class Entity<E, ID> {
+public abstract class Entity<E, K> {
 
   /**
    *
    * @return The identity
    */
-  protected abstract ID getId();
+  protected abstract K getId();
 
   /**
    * Entities compare by identity, not by attributes.

@@ -6,14 +6,14 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.util.Objects;
 
-public abstract class Id<TYPE, Id> extends ValueObject<TYPE> {
+public abstract class Id<T, K> extends ValueObject<T> {
 
-  protected final Id id;
+  protected final K value;
 
-  public Id(Id id) {
-    Preconditions.checkNotNull(id, "Id not be should null");
+  public Id(K value) {
+    Preconditions.checkNotNull(value, "Id not be should null");
 
-    this.id = id;
+    this.value = value;
   }
 
   @Override
@@ -28,27 +28,27 @@ public abstract class Id<TYPE, Id> extends ValueObject<TYPE> {
 
     cabanas.garcia.ismael.shared.domain.Id that = (cabanas.garcia.ismael.shared.domain.Id) o;
 
-    return Objects.equals(id, that.id);
+    return Objects.equals(value, that.value);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id);
+    return Objects.hash(value);
   }
 
   @Override
   public String toString() {
     return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
-            .append("id", id)
+            .append("value", value)
             .toString();
   }
 
   @Override
-  public boolean sameValueAs(final TYPE other) {
+  public boolean sameValueAs(final T other) {
     return equals(other);
   }
 
-  public Id getValue() {
-    return id;
+  public K getValue() {
+    return value;
   }
 }
