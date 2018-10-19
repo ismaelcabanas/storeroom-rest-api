@@ -1,4 +1,4 @@
-package cabanas.garcia.ismael.storeroom.product.infrastructure.framework.controller;
+package cabanas.garcia.ismael.storeroom.infrastructure.framework.controller;
 
 import cabanas.garcia.ismael.storeroom.application.create.StoreroomCreator;
 import cabanas.garcia.ismael.storeroom.infrastructure.framework.controller.StoreroomCreateController;
