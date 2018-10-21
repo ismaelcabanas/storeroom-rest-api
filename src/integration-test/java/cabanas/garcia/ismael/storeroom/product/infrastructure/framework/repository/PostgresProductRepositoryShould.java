@@ -7,8 +7,8 @@ import cabanas.garcia.ismael.storeroom.product.domain.ProductName;
 import cabanas.garcia.ismael.storeroom.product.domain.ProductNameStub;
 import cabanas.garcia.ismael.storeroom.product.domain.ProductRepository;
 import cabanas.garcia.ismael.storeroom.product.domain.ProductStub;
-import cabanas.garcia.ismael.storeroom.product.infrastructure.framework.configuration.DataBaseConfiguration;
-import cabanas.garcia.ismael.storeroom.product.infrastructure.framework.configuration.RepositoryConfiguration;
+import cabanas.garcia.ismael.storeroom.infrastructure.framework.configuration.DataBaseConfiguration;
+import cabanas.garcia.ismael.storeroom.product.infrastructure.framework.configuration.ProductRepositoryConfiguration;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @JdbcTest
-@ImportAutoConfiguration({RepositoryConfiguration.class, DataBaseConfiguration.class})
+@ImportAutoConfiguration({ProductRepositoryConfiguration.class, DataBaseConfiguration.class})
 // https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-testing.html#
 // boot-features-testing-spring-boot-applications-testing-autoconfigured-jpa-test
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)

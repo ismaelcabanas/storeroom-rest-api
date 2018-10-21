@@ -1,4 +1,4 @@
-package cabanas.garcia.ismael.storeroom.product.infrastructure.framework.configuration;
+package cabanas.garcia.ismael.storeroom.infrastructure.framework.configuration;
 
 import org.jooq.ConnectionProvider;
 import org.jooq.DSLContext;

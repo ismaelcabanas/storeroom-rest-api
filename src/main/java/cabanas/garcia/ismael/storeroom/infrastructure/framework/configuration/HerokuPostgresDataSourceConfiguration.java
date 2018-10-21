@@ -1,4 +1,4 @@
-package cabanas.garcia.ismael.storeroom.product.infrastructure.framework.configuration;
+package cabanas.garcia.ismael.storeroom.infrastructure.framework.configuration;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;

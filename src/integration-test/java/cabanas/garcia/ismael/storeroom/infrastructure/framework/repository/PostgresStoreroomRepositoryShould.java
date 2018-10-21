@@ -8,7 +8,7 @@ import cabanas.garcia.ismael.storeroom.domain.StoreroomNameStub;
 import cabanas.garcia.ismael.storeroom.domain.StoreroomRepository;
 import cabanas.garcia.ismael.storeroom.domain.StoreroomStub;
 import cabanas.garcia.ismael.storeroom.infrastructure.framework.configuration.StoreroomRepositoryConfiguration;
-import cabanas.garcia.ismael.storeroom.product.infrastructure.framework.configuration.DataBaseConfiguration;
+import cabanas.garcia.ismael.storeroom.infrastructure.framework.configuration.DataBaseConfiguration;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
