@@ -13,25 +13,19 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy;
 
-import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 @Configuration
 public class DataBaseConfiguration {
 
-  @Resource
-  private DataSource dataSource;
-
-  @Value("${storeroom.database.query.timeout.seconds}")
-  private Integer queryTimeout;
-
   @Bean
-  public DataSourceConnectionProvider connectionProvider() {
+  public DataSourceConnectionProvider connectionProvider(DataSource dataSource) {
     return new DataSourceConnectionProvider(new TransactionAwareDataSourceProxy(dataSource));
   }
 
   @Bean
-  public org.jooq.Configuration config(ConnectionProvider connectionProvider) {
+  public org.jooq.Configuration config(ConnectionProvider connectionProvider,
+                                       @Value("${storeroom.database.query.timeout.seconds}") Integer queryTimeout) {
     DefaultConfiguration config = new DefaultConfiguration();
     config.set(connectionProvider);
     config.set(SQLDialect.POSTGRES_9_5);
@@ -45,7 +39,9 @@ public class DataBaseConfiguration {
   }
 
   @Bean
-  public NamedParameterJdbcTemplate configureNamedJdbcTemplate(JdbcTemplate jdbcTemplate) {
+  public NamedParameterJdbcTemplate configureNamedJdbcTemplate(
+          JdbcTemplate jdbcTemplate,
+          @Value("${storeroom.database.query.timeout.seconds}") Integer queryTimeout) {
     if (queryTimeout != null) {
       jdbcTemplate.setQueryTimeout(queryTimeout);
     }
