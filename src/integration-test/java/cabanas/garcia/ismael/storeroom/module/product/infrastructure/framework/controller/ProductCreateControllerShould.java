@@ -1,7 +1,7 @@
 package cabanas.garcia.ismael.storeroom.module.product.infrastructure.framework.controller;
 
 
-import cabanas.garcia.ismael.storeroom.module.product.create.ProductCreator;
+import cabanas.garcia.ismael.storeroom.module.product.application.create.ProductCreator;
 import cabanas.garcia.ismael.storeroom.module.product.infrastructure.framework.controller.request.NewProductRequest;
 import cabanas.garcia.ismael.storeroom.module.product.infrastructure.framework.controller.response.ProductCreatedResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;

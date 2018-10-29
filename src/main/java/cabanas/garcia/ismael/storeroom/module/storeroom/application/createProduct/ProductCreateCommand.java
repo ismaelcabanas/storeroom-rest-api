@@ -1,14 +1,14 @@
-package cabanas.garcia.ismael.storeroom.module.product.create;
-
-import java.util.Objects;
+package cabanas.garcia.ismael.storeroom.module.storeroom.application.createProduct;
 
 public final class ProductCreateCommand {
   private final String id;
   private final String name;
+  private final String storeroomId;
 
   private ProductCreateCommand(Builder builder) {
     this.id = builder.id;
     this.name = builder.name;
+    this.storeroomId = builder.storeroomId;
   }
 
   public String getId() {
@@ -19,26 +19,6 @@ public final class ProductCreateCommand {
     return name;
   }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-
-    ProductCreateCommand that = (ProductCreateCommand) o;
-    return Objects.equals(id, that.id)
-            && Objects.equals(name, that.name);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, name);
-  }
-
   public static Builder builder() {
     return new Builder();
   }
@@ -46,6 +26,7 @@ public final class ProductCreateCommand {
   public static final class Builder {
     private String id;
     private String name;
+    private String storeroomId;
 
     private Builder() {
     }
@@ -60,8 +41,14 @@ public final class ProductCreateCommand {
       return this;
     }
 
+    public Builder withStoreroomId(String val) {
+      this.storeroomId = val;
+      return this;
+    }
+
     public ProductCreateCommand build() {
       return new ProductCreateCommand(this);
     }
+
   }
 }

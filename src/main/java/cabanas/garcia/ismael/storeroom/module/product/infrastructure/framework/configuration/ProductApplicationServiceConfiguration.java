@@ -2,7 +2,7 @@ package cabanas.garcia.ismael.storeroom.module.product.infrastructure.framework.
 
 import cabanas.garcia.ismael.shared.domain.event.DomainEventHandler;
 import cabanas.garcia.ismael.shared.domain.event.DomainEventPublisher;
-import cabanas.garcia.ismael.storeroom.module.product.create.ProductCreator;
+import cabanas.garcia.ismael.storeroom.module.product.application.create.ProductCreator;
 import cabanas.garcia.ismael.storeroom.module.product.domain.ProductRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

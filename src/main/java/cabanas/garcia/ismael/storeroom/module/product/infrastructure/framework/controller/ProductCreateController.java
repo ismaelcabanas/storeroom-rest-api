@@ -1,9 +1,9 @@
 package cabanas.garcia.ismael.storeroom.module.product.infrastructure.framework.controller;
 
-import cabanas.garcia.ismael.storeroom.module.product.create.ProductCreateCommand;
+import cabanas.garcia.ismael.storeroom.module.product.application.create.ProductCreateCommand;
 import cabanas.garcia.ismael.storeroom.module.product.infrastructure.framework.controller.request.NewProductRequest;
 import cabanas.garcia.ismael.storeroom.module.product.infrastructure.framework.controller.response.ProductCreatedResponse;
-import cabanas.garcia.ismael.storeroom.module.product.create.ProductCreator;
+import cabanas.garcia.ismael.storeroom.module.product.application.create.ProductCreator;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
