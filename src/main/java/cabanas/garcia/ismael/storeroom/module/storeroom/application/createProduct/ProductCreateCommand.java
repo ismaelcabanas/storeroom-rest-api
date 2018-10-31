@@ -23,6 +23,10 @@ public final class ProductCreateCommand {
     return new Builder();
   }
 
+  public String getStoreroomId() {
+    return storeroomId;
+  }
+
   public static final class Builder {
     private String id;
     private String name;

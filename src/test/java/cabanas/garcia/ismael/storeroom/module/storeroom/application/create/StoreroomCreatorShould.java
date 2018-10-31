@@ -32,7 +32,7 @@ public class StoreroomCreatorShould {
   }
 
   @Test
-  public void create_product() {
+  public void create_storeroom() {
     // given
     StoreroomId storeroomId = StoreroomIdStub.random();
     StoreroomName storeroomName = StoreroomNameStub.random();

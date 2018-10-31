@@ -3,7 +3,7 @@ package cabanas.garcia.ismael.storeroom.module.product.application.create;
 import cabanas.garcia.ismael.storeroom.module.product.domain.ProductId;
 import cabanas.garcia.ismael.storeroom.module.product.domain.ProductName;
 
-public class ProductCreateCommandStub {
+public final class ProductCreateCommandStub {
 
   private ProductCreateCommandStub() {
   }

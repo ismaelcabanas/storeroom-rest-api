@@ -1,5 +1,6 @@
 package cabanas.garcia.ismael.storeroom.module.storeroom.infrastructure.framework.configuration;
 
+import cabanas.garcia.ismael.shared.domain.event.DomainEventPublisher;
 import cabanas.garcia.ismael.storeroom.module.storeroom.application.create.StoreroomCreator;
 import cabanas.garcia.ismael.storeroom.module.storeroom.application.createProduct.ProductCreator;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomRepository;
@@ -15,7 +16,9 @@ public class StoreroomApplicationServiceConfiguration {
   }
 
   @Bean(name = "storeroomProductCreator")
-  public ProductCreator productCreator() {
-    return new ProductCreator();
+  public ProductCreator productCreator(
+          StoreroomRepository storeroomRepository,
+          DomainEventPublisher domainEventPublisher) {
+    return new ProductCreator(storeroomRepository, domainEventPublisher);
   }
 }
