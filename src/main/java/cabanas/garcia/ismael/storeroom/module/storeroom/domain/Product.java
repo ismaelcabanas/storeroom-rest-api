@@ -58,6 +58,22 @@ public class Product extends AggregateRoot<Product, ProductId> {
     return Objects.hash(id);
   }
 
+  public static Product create(StoreroomId storeroomId, ProductId productId, ProductName productName) {
+    Product product = Product.builder()
+            .withId(productId)
+            .withName(productName)
+            .withStoreroomId(storeroomId)
+            .build();
+
+    product.record(ProductCreatedDomainEvent.builder()
+            .withId(productId.getValue())
+            .withName(productName.getName())
+            .withStoreroomId(storeroomId.getValue())
+            .build());
+
+    return product;
+  }
+
   public static final class Builder {
     private ProductName name;
     private ProductId id;

@@ -19,7 +19,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
-import java.util.Arrays;
+import java.util.Collections;
 
 import static org.mockito.Mockito.verify;
 
@@ -77,7 +77,7 @@ public class ProductCreatorShould {
   }
 
   private void shouldPublishEventDomains(DomainEvent domainEvent) {
-    verify(domainEventPublisher).publish(Arrays.asList(domainEvent));
+    verify(domainEventPublisher).publish(Collections.singletonList(domainEvent));
   }
 
 }

@@ -18,11 +18,14 @@ public class ProductCreator {
   }
 
   public void execute(ProductCreateCommand command) {
-    repository.save(Product.builder()
-            .withId(new ProductId(command.getId()))
-            .withName(new ProductName(command.getName()))
-            .withStoreroomId(new StoreroomId(command.getStoreroomId()))
-            .build()
+    Product product = Product.create(
+            new StoreroomId(command.getStoreroomId()),
+            new ProductId(command.getId()),
+            new ProductName(command.getName())
     );
+
+    repository.save(product);
+
+    domainEventPublisher.publish(product.pullDomainEvents());
   }
 }
