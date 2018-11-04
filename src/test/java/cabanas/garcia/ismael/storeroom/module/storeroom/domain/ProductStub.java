@@ -4,11 +4,10 @@ public class ProductStub {
   private ProductStub() {
   }
 
-  public static Product create(StoreroomId storeroomId, ProductId productId, ProductName productName) {
+  public static Product create(ProductId productId, ProductName productName) {
     return Product.builder()
             .withId(productId)
             .withName(productName)
-            .withStoreroomId(storeroomId)
             .build();
   }
 }

@@ -4,80 +4,91 @@ import cabanas.garcia.ismael.shared.domain.event.DomainEvent;
 import cabanas.garcia.ismael.shared.domain.event.DomainEventPublisher;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.Product;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.ProductCreatedDomainEventStub;
-import cabanas.garcia.ismael.storeroom.module.storeroom.domain.ProductId;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.ProductIdStub;
-import cabanas.garcia.ismael.storeroom.module.storeroom.domain.ProductName;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.ProductNameStub;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.ProductStub;
-import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomId;
+import cabanas.garcia.ismael.storeroom.module.storeroom.domain.Storeroom;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomIdStub;
+import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomNameStub;
+import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomNotFoundException;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomRepository;
-import org.junit.Before;
+import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomRepositoryDontGetStoreroomWhenFindByIdStub;
+import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomRepositoryGettingStoreroomStub;
+import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomStub;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
 import java.util.Collections;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.Mockito.verify;
 
 public class AddProductShould {
   @Rule
   public MockitoRule mockitoRule = MockitoJUnit.rule();
 
-  private AddProduct productCreator;
-
-  @Mock
-  private StoreroomRepository storeroomRepository;
-
   @Mock
   private DomainEventPublisher domainEventPublisher;
 
-  @Before
-  public void setUp() {
-    productCreator = new AddProduct(storeroomRepository, domainEventPublisher);
-  }
-
   @Test
-  public void persist_product_in_storeroom() {
+  public void update_storeroom_with_new_product() {
     // given
-    StoreroomId storeroomId = StoreroomIdStub.random();
-    ProductId productId = ProductIdStub.random();
-    ProductName productName = ProductNameStub.random();
-    Product product = ProductStub.create(storeroomId, productId, productName);
-    AddProductCommand command = AddProductCommandStub.create(storeroomId, productId, productName);
+    Storeroom storeroom = StoreroomStub.create(StoreroomIdStub.random(), StoreroomNameStub.random());
+    Product product = ProductStub.create(ProductIdStub.random(), ProductNameStub.random());
+    StoreroomRepositoryGettingStoreroomStub storeroomRepository =
+            new StoreroomRepositoryGettingStoreroomStub(storeroom);
+    StoreroomRepository storeroomRepositorySpy = Mockito.spy(storeroomRepository);
+    AddProduct addProduct = new AddProduct(storeroomRepositorySpy, domainEventPublisher);
+    AddProductCommand command =
+            AddProductCommandStub.create(storeroom.getId(), product.getId(), product.getName());
 
     // when
-    productCreator.execute(command);
+    addProduct.execute(command);
 
     //then
-    shouldSaveProduct(product);
+    verify(storeroomRepositorySpy).update(storeroom);
   }
 
   @Test
   public void publish_domain_event() {
     // given
-    StoreroomId storeroomId = StoreroomIdStub.random();
-    ProductId productId = ProductIdStub.random();
-    ProductName productName = ProductNameStub.random();
-    DomainEvent domainEvent = ProductCreatedDomainEventStub.create(storeroomId, productId, productName);
-    AddProductCommand command = AddProductCommandStub.create(storeroomId, productId, productName);
+    Storeroom storeroom = StoreroomStub.create(StoreroomIdStub.random(), StoreroomNameStub.random());
+    Product product = ProductStub.create(ProductIdStub.random(), ProductNameStub.random());
+    StoreroomRepositoryGettingStoreroomStub storeroomRepository =
+            new StoreroomRepositoryGettingStoreroomStub(storeroom);
+    AddProduct addProduct = new AddProduct(storeroomRepository, domainEventPublisher);
+    AddProductCommand command =
+            AddProductCommandStub.create(storeroom.getId(), product.getId(), product.getName());
+    DomainEvent domainEvent =
+            ProductCreatedDomainEventStub.create(storeroom.getId(), product.getId(), product.getName());
 
     // when
-    productCreator.execute(command);
+    addProduct.execute(command);
 
     //then
-    shouldPublishEventDomains(domainEvent);
-  }
-
-  private void shouldSaveProduct(Product product) {
-    verify(storeroomRepository).save(product);
-  }
-
-  private void shouldPublishEventDomains(DomainEvent domainEvent) {
     verify(domainEventPublisher).publish(Collections.singletonList(domainEvent));
+  }
+
+  @Test
+  public void throw_exception_when_not_exist_storeroom_to_add_product() {
+    // given
+    AddProduct addProduct = new AddProduct(new StoreroomRepositoryDontGetStoreroomWhenFindByIdStub(), domainEventPublisher);
+    Storeroom storeroom = StoreroomStub.create(StoreroomIdStub.random(), StoreroomNameStub.random());
+    Product product = ProductStub.create(ProductIdStub.random(), ProductNameStub.random());
+    AddProductCommand command =
+            AddProductCommandStub.create(storeroom.getId(), product.getId(), product.getName());
+
+    // when
+    Throwable thrown = catchThrowable(() -> addProduct.execute(command));
+
+    // then
+    assertThat(thrown)
+            .isInstanceOf(StoreroomNotFoundException.class);
   }
 
 }

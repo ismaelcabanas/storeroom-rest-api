@@ -5,7 +5,9 @@ import cabanas.garcia.ismael.shared.domain.event.DomainEventPublisher;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.Product;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.ProductId;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.ProductName;
+import cabanas.garcia.ismael.storeroom.module.storeroom.domain.Storeroom;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomId;
+import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomNotFoundException;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomRepository;
 
 public class AddProduct {
@@ -18,14 +20,17 @@ public class AddProduct {
   }
 
   public void execute(AddProductCommand command) {
-    Product product = Product.create(
-            new StoreroomId(command.getStoreroomId()),
-            new ProductId(command.getId()),
-            new ProductName(command.getName())
-    );
+    Storeroom storeroom = repository
+            .findById(new StoreroomId(command.getStoreroomId()))
+            .orElseThrow(() -> new StoreroomNotFoundException());
 
-    repository.save(product);
+    storeroom.addProduct(Product.builder()
+            .withId(new ProductId(command.getId()))
+            .withName(new ProductName(command.getName()))
+            .build());
 
-    domainEventPublisher.publish(product.pullDomainEvents());
+    repository.update(storeroom);
+
+    domainEventPublisher.publish(storeroom.pullDomainEvents());
   }
 }

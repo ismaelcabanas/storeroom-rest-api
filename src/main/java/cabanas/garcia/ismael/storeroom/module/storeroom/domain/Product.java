@@ -8,15 +8,13 @@ import java.util.Objects;
 public class Product extends AggregateRoot<Product, ProductId> {
   private final ProductName name;
   private final ProductId id;
-  private final StoreroomId storeroomId;
+  private StoreroomId storeroomId;
 
   private Product(Builder builder) {
     Preconditions.checkNotNull(builder.id, "ProductId should not be null");
     Preconditions.checkNotNull(builder.name, "ProductName should not be null");
-    Preconditions.checkNotNull(builder.storeroomId, "StoreroomId should not be null");
     this.name = builder.name;
     this.id = builder.id;
-    this.storeroomId = builder.storeroomId;
   }
 
   public static Builder builder() {
@@ -58,26 +56,13 @@ public class Product extends AggregateRoot<Product, ProductId> {
     return Objects.hash(id);
   }
 
-  public static Product create(StoreroomId storeroomId, ProductId productId, ProductName productName) {
-    Product product = Product.builder()
-            .withId(productId)
-            .withName(productName)
-            .withStoreroomId(storeroomId)
-            .build();
-
-    product.record(ProductCreatedDomainEvent.builder()
-            .withId(productId.getValue())
-            .withName(productName.getName())
-            .withStoreroomId(storeroomId.getValue())
-            .build());
-
-    return product;
+  public void storeroomId(StoreroomId theStoreroomId) {
+    this.storeroomId = theStoreroomId;
   }
 
   public static final class Builder {
     private ProductName name;
     private ProductId id;
-    private StoreroomId storeroomId;
 
     private Builder() {
     }
@@ -96,9 +81,5 @@ public class Product extends AggregateRoot<Product, ProductId> {
       return new Product(this);
     }
 
-    public Builder withStoreroomId(StoreroomId val) {
-      this.storeroomId = val;
-      return this;
-    }
   }
 }

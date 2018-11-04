@@ -1,11 +1,12 @@
 package cabanas.garcia.ismael.storeroom.module.storeroom.infrastructure.framework.repository;
 
-import cabanas.garcia.ismael.storeroom.module.storeroom.domain.Product;
-import cabanas.garcia.ismael.storeroom.module.storeroom.domain.Storeroom;
-import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomRepository;
 import cabanas.garcia.ismael.storeroom.module.product.infrastructure.framework.repository.jooq.autogen.Tables;
+import cabanas.garcia.ismael.storeroom.module.storeroom.domain.Storeroom;
+import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomId;
+import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomRepository;
 import org.jooq.DSLContext;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public class PostgresStoreroomRepository implements StoreroomRepository {
@@ -25,7 +26,12 @@ public class PostgresStoreroomRepository implements StoreroomRepository {
   }
 
   @Override
-  public void save(final Product product) {
+  public Optional<Storeroom> findById(StoreroomId storeroomId) {
+    return Optional.empty();
+  }
+
+  @Override
+  public void update(Storeroom storeroom) {
 
   }
 }

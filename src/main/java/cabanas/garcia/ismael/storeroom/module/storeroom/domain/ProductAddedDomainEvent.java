@@ -4,12 +4,12 @@ import cabanas.garcia.ismael.shared.domain.event.DomainEvent;
 
 import java.util.Objects;
 
-public final class ProductCreatedDomainEvent extends DomainEvent {
+public final class ProductAddedDomainEvent extends DomainEvent {
   private final String id;
   private final String name;
   private final String storeroomId;
 
-  private ProductCreatedDomainEvent(Builder builder) {
+  private ProductAddedDomainEvent(Builder builder) {
     this.id = builder.id;
     this.name = builder.name;
     this.storeroomId = builder.storeroomId;
@@ -33,7 +33,7 @@ public final class ProductCreatedDomainEvent extends DomainEvent {
       return false;
     }
 
-    ProductCreatedDomainEvent that = (ProductCreatedDomainEvent) o;
+    ProductAddedDomainEvent that = (ProductAddedDomainEvent) o;
     return Objects.equals(id, that.id)
             && Objects.equals(name, that.name);
   }
@@ -65,8 +65,8 @@ public final class ProductCreatedDomainEvent extends DomainEvent {
       return this;
     }
 
-    public ProductCreatedDomainEvent build() {
-      return new ProductCreatedDomainEvent(this);
+    public ProductAddedDomainEvent build() {
+      return new ProductAddedDomainEvent(this);
     }
 
     public Builder withStoreroomId(String val) {
