@@ -1,4 +1,4 @@
-package cabanas.garcia.ismael.storeroom.module.storeroom.application.createProduct;
+package cabanas.garcia.ismael.storeroom.module.storeroom.application.addProduct;
 
 import cabanas.garcia.ismael.shared.domain.event.DomainEvent;
 import cabanas.garcia.ismael.shared.domain.event.DomainEventPublisher;

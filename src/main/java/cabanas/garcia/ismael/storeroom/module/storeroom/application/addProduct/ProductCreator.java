@@ -1,10 +1,11 @@
-package cabanas.garcia.ismael.storeroom.module.storeroom.application.createProduct;
+package cabanas.garcia.ismael.storeroom.module.storeroom.application.addProduct;
 
 
 import cabanas.garcia.ismael.shared.domain.event.DomainEventPublisher;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.Product;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.ProductId;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.ProductName;
+import cabanas.garcia.ismael.storeroom.module.storeroom.domain.Storeroom;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomId;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomRepository;
 

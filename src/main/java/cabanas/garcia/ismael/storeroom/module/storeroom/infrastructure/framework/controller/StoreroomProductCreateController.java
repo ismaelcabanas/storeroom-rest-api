@@ -1,7 +1,7 @@
 package cabanas.garcia.ismael.storeroom.module.storeroom.infrastructure.framework.controller;
 
-import cabanas.garcia.ismael.storeroom.module.storeroom.application.createProduct.ProductCreateCommand;
-import cabanas.garcia.ismael.storeroom.module.storeroom.application.createProduct.ProductCreator;
+import cabanas.garcia.ismael.storeroom.module.storeroom.application.addProduct.ProductCreateCommand;
+import cabanas.garcia.ismael.storeroom.module.storeroom.application.addProduct.ProductCreator;
 import cabanas.garcia.ismael.storeroom.module.storeroom.infrastructure.framework.controller.request.NewProductRequest;
 import cabanas.garcia.ismael.storeroom.module.storeroom.infrastructure.framework.controller.response.ProductCreatedResponse;
 import org.springframework.beans.factory.annotation.Qualifier;
