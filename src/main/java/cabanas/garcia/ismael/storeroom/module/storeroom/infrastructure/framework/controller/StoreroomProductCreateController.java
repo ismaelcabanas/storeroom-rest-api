@@ -1,7 +1,7 @@
 package cabanas.garcia.ismael.storeroom.module.storeroom.infrastructure.framework.controller;
 
-import cabanas.garcia.ismael.storeroom.module.storeroom.application.addProduct.ProductCreateCommand;
-import cabanas.garcia.ismael.storeroom.module.storeroom.application.addProduct.ProductCreator;
+import cabanas.garcia.ismael.storeroom.module.storeroom.application.addProduct.AddProductCommand;
+import cabanas.garcia.ismael.storeroom.module.storeroom.application.addProduct.AddProduct;
 import cabanas.garcia.ismael.storeroom.module.storeroom.infrastructure.framework.controller.request.NewProductRequest;
 import cabanas.garcia.ismael.storeroom.module.storeroom.infrastructure.framework.controller.response.ProductCreatedResponse;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,9 +16,9 @@ import java.net.URI;
 @RestController
 public class StoreroomProductCreateController {
 
-  private final ProductCreator productCreator;
+  private final AddProduct productCreator;
 
-  public StoreroomProductCreateController(@Qualifier("storeroomProductCreator") ProductCreator productCreator) {
+  public StoreroomProductCreateController(@Qualifier("storeroomProductCreator") AddProduct productCreator) {
     this.productCreator = productCreator;
   }
 
@@ -26,7 +26,7 @@ public class StoreroomProductCreateController {
   public ResponseEntity<ProductCreatedResponse> execute(
           @PathVariable("storeroomId") String storeroomId,
           @RequestBody NewProductRequest request) {
-    productCreator.execute(ProductCreateCommand.builder()
+    productCreator.execute(AddProductCommand.builder()
             .withId(request.getId())
             .withName(request.getName())
             .withStoreroomId(storeroomId)

@@ -1,11 +1,11 @@
 package cabanas.garcia.ismael.storeroom.module.storeroom.application.addProduct;
 
-public final class ProductCreateCommand {
+public final class AddProductCommand {
   private final String id;
   private final String name;
   private final String storeroomId;
 
-  private ProductCreateCommand(Builder builder) {
+  private AddProductCommand(Builder builder) {
     this.id = builder.id;
     this.name = builder.name;
     this.storeroomId = builder.storeroomId;
@@ -50,8 +50,8 @@ public final class ProductCreateCommand {
       return this;
     }
 
-    public ProductCreateCommand build() {
-      return new ProductCreateCommand(this);
+    public AddProductCommand build() {
+      return new AddProductCommand(this);
     }
 
   }

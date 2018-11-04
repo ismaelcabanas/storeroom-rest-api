@@ -1,6 +1,6 @@
 package cabanas.garcia.ismael.storeroom.module.storeroom.infrastructure.framework.controller;
 
-import cabanas.garcia.ismael.storeroom.module.storeroom.application.addProduct.ProductCreator;
+import cabanas.garcia.ismael.storeroom.module.storeroom.application.addProduct.AddProduct;
 import cabanas.garcia.ismael.storeroom.module.storeroom.infrastructure.framework.controller.request.NewProductRequest;
 import cabanas.garcia.ismael.storeroom.module.storeroom.infrastructure.framework.controller.response.ProductCreatedResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -38,7 +38,7 @@ public class StoreroomProductCreateControllerShould {
 
   @MockBean
   @Qualifier("storeroomProductCreator")
-  private ProductCreator productCreator;
+  private AddProduct productCreator;
 
   private JacksonTester<NewProductRequest> jsonResult;
   private JacksonTester<ProductCreatedResponse> jsonResponse;

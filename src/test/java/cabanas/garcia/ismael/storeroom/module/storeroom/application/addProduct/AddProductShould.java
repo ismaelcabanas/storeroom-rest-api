@@ -23,11 +23,11 @@ import java.util.Collections;
 
 import static org.mockito.Mockito.verify;
 
-public class ProductCreatorShould {
+public class AddProductShould {
   @Rule
   public MockitoRule mockitoRule = MockitoJUnit.rule();
 
-  private ProductCreator productCreator;
+  private AddProduct productCreator;
 
   @Mock
   private StoreroomRepository storeroomRepository;
@@ -37,7 +37,7 @@ public class ProductCreatorShould {
 
   @Before
   public void setUp() {
-    productCreator = new ProductCreator(storeroomRepository, domainEventPublisher);
+    productCreator = new AddProduct(storeroomRepository, domainEventPublisher);
   }
 
   @Test
@@ -47,7 +47,7 @@ public class ProductCreatorShould {
     ProductId productId = ProductIdStub.random();
     ProductName productName = ProductNameStub.random();
     Product product = ProductStub.create(storeroomId, productId, productName);
-    ProductCreateCommand command = ProductCreateCommandStub.create(storeroomId, productId, productName);
+    AddProductCommand command = AddProductCommandStub.create(storeroomId, productId, productName);
 
     // when
     productCreator.execute(command);
@@ -63,7 +63,7 @@ public class ProductCreatorShould {
     ProductId productId = ProductIdStub.random();
     ProductName productName = ProductNameStub.random();
     DomainEvent domainEvent = ProductCreatedDomainEventStub.create(storeroomId, productId, productName);
-    ProductCreateCommand command = ProductCreateCommandStub.create(storeroomId, productId, productName);
+    AddProductCommand command = AddProductCommandStub.create(storeroomId, productId, productName);
 
     // when
     productCreator.execute(command);
