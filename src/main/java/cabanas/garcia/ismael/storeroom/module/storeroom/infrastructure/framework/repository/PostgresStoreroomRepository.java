@@ -11,9 +11,12 @@ import java.util.UUID;
 
 public class PostgresStoreroomRepository implements StoreroomRepository {
   private final DSLContext dslContext;
+  private final StoreroomDataRecordMapper storeroomDataRecordMapper;
 
-  public PostgresStoreroomRepository(DSLContext dslContext) {
+  public PostgresStoreroomRepository(DSLContext dslContext,
+                                     StoreroomDataRecordMapper storeroomDataRecordMapper) {
     this.dslContext = dslContext;
+    this.storeroomDataRecordMapper = storeroomDataRecordMapper;
   }
 
   @Override
@@ -27,7 +30,9 @@ public class PostgresStoreroomRepository implements StoreroomRepository {
 
   @Override
   public Optional<Storeroom> findById(StoreroomId storeroomId) {
-    return Optional.empty();
+    return dslContext.selectFrom(Tables.STOREROOMS)
+            .where(Tables.STOREROOMS.S_ID.eq(UUID.fromString(storeroomId.getValue())))
+            .fetchOptional(storeroomDataRecordMapper);
   }
 
   @Override

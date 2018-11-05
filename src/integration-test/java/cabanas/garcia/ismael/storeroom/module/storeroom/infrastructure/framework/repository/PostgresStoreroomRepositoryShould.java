@@ -20,6 +20,9 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.jdbc.JdbcTestUtils;
 
+import java.util.Optional;
+import java.util.UUID;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
@@ -48,5 +51,32 @@ public class PostgresStoreroomRepositoryShould {
     assertThat(JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "STOREROOMS",
             "S_NAME = '" + storeroomName.getName() + "'"))
             .isEqualTo(1);
+  }
+
+  @Test
+  public void find_existent_storeroom() {
+    // given
+    Storeroom storeroom = StoreroomStub.random();
+    storeroomRepository.save(storeroom);
+
+    // when
+    Optional<Storeroom> storeroomResult = storeroomRepository.findById(storeroom.getId());
+
+    // then
+    assertThat(storeroomResult).isNotEmpty();
+    assertThat(storeroomResult.get().getId()).isEqualTo(storeroom.getId());
+    assertThat(storeroomResult.get().getName()).isEqualTo(storeroom.getName());
+  }
+
+  @Test
+  public void not_find_inexistent_storeroom() {
+    // given
+    StoreroomId storeroomIdThatNotExistInSystem = new StoreroomId(UUID.randomUUID().toString());
+
+    // when
+    Optional<Storeroom> storeroomResult = storeroomRepository.findById(storeroomIdThatNotExistInSystem);
+
+    // then
+    assertThat(storeroomResult).isEmpty();
   }
 }
