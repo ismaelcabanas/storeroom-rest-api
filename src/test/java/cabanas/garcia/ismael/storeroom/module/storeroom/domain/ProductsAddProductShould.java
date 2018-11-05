@@ -18,7 +18,7 @@ public class ProductsAddProductShould {
     Products newProducts = products.add(product);
 
     // then
-    assertThat(newProducts.contains(product));
+    assertThat(newProducts.contains(product)).isTrue();
   }
 
   @Test

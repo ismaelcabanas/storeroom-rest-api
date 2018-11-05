@@ -1,14 +1,14 @@
 package cabanas.garcia.ismael.storeroom.module.storeroom.infrastructure.framework.repository;
 
+import cabanas.garcia.ismael.storeroom.infrastructure.framework.configuration.DataBaseConfiguration;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.Storeroom;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomId;
-import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomIdStub;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomName;
-import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomNameStub;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomRepository;
-import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomStub;
+import cabanas.garcia.ismael.storeroom.module.storeroom.domain.stubs.StoreroomIdStub;
+import cabanas.garcia.ismael.storeroom.module.storeroom.domain.stubs.StoreroomNameStub;
+import cabanas.garcia.ismael.storeroom.module.storeroom.domain.stubs.StoreroomStub;
 import cabanas.garcia.ismael.storeroom.module.storeroom.infrastructure.framework.configuration.StoreroomRepositoryConfiguration;
-import cabanas.garcia.ismael.storeroom.infrastructure.framework.configuration.DataBaseConfiguration;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
