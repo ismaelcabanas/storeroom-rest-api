@@ -1,6 +1,7 @@
 package cabanas.garcia.ismael.storeroom.module.storeroom.domain;
 
 import cabanas.garcia.ismael.shared.domain.ValueObject;
+import com.google.common.base.Preconditions;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -24,6 +25,8 @@ public final class Products extends ValueObject<Products> {
   }
 
   public Products add(Product newProduct) {
+    Preconditions.checkNotNull(newProduct, "Product should not be null");
+
     products.add(newProduct);
     return new Products(new HashSet<>(products));
   }
