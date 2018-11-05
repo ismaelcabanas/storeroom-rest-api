@@ -32,6 +32,23 @@ public final class Storeroom extends AggregateRoot<Storeroom, StoreroomId> {
     return id;
   }
 
+  public void addProduct(Product product) {
+    this.products = products.add(product);
+    record(ProductAddedDomainEvent.builder()
+            .withId(product.getId().getValue())
+            .withName(product.getName().getName())
+            .withStoreroomId(this.id.getValue())
+            .build());
+  }
+
+  public Products products() {
+    return products;
+  }
+
+  public boolean contains(Product product) {
+    return products.contains(product);
+  }
+
   @Override
   protected boolean sameIdentityAs(final Storeroom other) {
     return equals(other);
@@ -52,23 +69,6 @@ public final class Storeroom extends AggregateRoot<Storeroom, StoreroomId> {
   @Override
   public int hashCode() {
     return Objects.hash(id);
-  }
-
-  public void addProduct(Product product) {
-    this.products = products.add(product);
-    record(ProductAddedDomainEvent.builder()
-            .withId(product.getId().getValue())
-            .withName(product.getName().getName())
-            .withStoreroomId(this.id.getValue())
-            .build());
-  }
-
-  public Products products() {
-    return products;
-  }
-
-  public boolean contains(Product product) {
-    return products.contains(product);
   }
 
   public static final class Builder {
