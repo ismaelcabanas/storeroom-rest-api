@@ -1,4 +1,6 @@
-package cabanas.garcia.ismael.storeroom.module.storeroom.domain;
+package cabanas.garcia.ismael.storeroom.module.storeroom.domain.stubs;
+
+import cabanas.garcia.ismael.storeroom.module.storeroom.domain.ProductId;
 
 import java.util.UUID;
 

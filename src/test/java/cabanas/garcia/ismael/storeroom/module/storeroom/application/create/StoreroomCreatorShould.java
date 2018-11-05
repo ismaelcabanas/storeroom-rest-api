@@ -2,11 +2,11 @@ package cabanas.garcia.ismael.storeroom.module.storeroom.application.create;
 
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.Storeroom;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomId;
-import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomIdStub;
+import cabanas.garcia.ismael.storeroom.module.storeroom.domain.stubs.StoreroomIdStub;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomName;
-import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomNameStub;
+import cabanas.garcia.ismael.storeroom.module.storeroom.domain.stubs.StoreroomNameStub;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomRepository;
-import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomStub;
+import cabanas.garcia.ismael.storeroom.module.storeroom.domain.stubs.StoreroomStub;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;

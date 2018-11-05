@@ -1,4 +1,9 @@
-package cabanas.garcia.ismael.storeroom.module.storeroom.domain;
+package cabanas.garcia.ismael.storeroom.module.storeroom.domain.stubs;
+
+import cabanas.garcia.ismael.storeroom.module.storeroom.domain.ProductAddedDomainEvent;
+import cabanas.garcia.ismael.storeroom.module.storeroom.domain.ProductId;
+import cabanas.garcia.ismael.storeroom.module.storeroom.domain.ProductName;
+import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomId;
 
 public final class ProductCreatedDomainEventStub {
 

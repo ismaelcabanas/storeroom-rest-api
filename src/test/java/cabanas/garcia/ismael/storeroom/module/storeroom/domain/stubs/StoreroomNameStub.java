@@ -1,5 +1,6 @@
-package cabanas.garcia.ismael.storeroom.module.storeroom.domain;
+package cabanas.garcia.ismael.storeroom.module.storeroom.domain.stubs;
 
+import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomName;
 import org.apache.commons.lang3.RandomStringUtils;
 
 public final class StoreroomNameStub {
