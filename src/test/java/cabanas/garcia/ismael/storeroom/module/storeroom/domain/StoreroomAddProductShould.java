@@ -22,4 +22,17 @@ public class StoreroomAddProductShould {
                     .withStoreroomId(storeroom.getId().getValue())
                     .build());
   }
+
+  @Test
+  public void contains_added_product() {
+    // given
+    Storeroom storeroom = StoreroomStub.create(StoreroomIdStub.random(), StoreroomNameStub.random());
+    Product product = ProductStub.create(ProductIdStub.random(), ProductNameStub.random());
+
+    // when
+    storeroom.addProduct(product);
+
+    // then
+    assertThat(storeroom.contains(product)).isTrue();
+  }
 }
