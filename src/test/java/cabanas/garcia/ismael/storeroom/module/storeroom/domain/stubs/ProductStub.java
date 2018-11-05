@@ -14,4 +14,11 @@ public class ProductStub {
             .withName(productName)
             .build();
   }
+
+  public static Product random() {
+    return Product.builder()
+            .withId(ProductIdStub.random())
+            .withName(ProductNameStub.random())
+            .build();
+  }
 }
