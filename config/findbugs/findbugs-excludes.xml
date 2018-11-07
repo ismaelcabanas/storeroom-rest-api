@@ -16,4 +16,7 @@
         <!-- Ignore test entities as these will often have unused things -->
         <Package name="~cabanas\.garcia\.ismael\.storeroom\.bdd\.steps.*"/>
     </Match>
+    <Match>
+        <Package name="~cabanas\.garcia\.ismael\.storeroom\.product.*"/>
+    </Match>
 </FindBugsFilter>

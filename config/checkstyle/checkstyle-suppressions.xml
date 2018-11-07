@@ -5,5 +5,5 @@
     <suppress checks="[a-zA-Z0-9]*" files="R\.java"/>
     <suppress checks="." files="BuildConfig.java"/>
     <suppress checks="." files=".*\.properties"/>
-    <suppress files="[\\/]jooq[\\/]" checks="[a-zA-Z0-9]*"/>
+    <suppress checks="." files="[\\/]jooq.autogen[\\/].*\.java$"/>
 </suppressions>

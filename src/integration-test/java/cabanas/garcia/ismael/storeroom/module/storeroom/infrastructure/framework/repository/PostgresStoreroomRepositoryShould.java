@@ -5,6 +5,7 @@ import cabanas.garcia.ismael.storeroom.module.storeroom.domain.Storeroom;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomId;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomName;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomRepository;
+import cabanas.garcia.ismael.storeroom.module.storeroom.domain.stubs.ProductStub;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.stubs.StoreroomIdStub;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.stubs.StoreroomNameStub;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.stubs.StoreroomStub;
@@ -38,7 +39,7 @@ public class PostgresStoreroomRepositoryShould {
   private JdbcTemplate jdbcTemplate;
 
   @Test
-  public void saveStoreroom() {
+  public void save_storeroom() {
     // given
     StoreroomName storeroomName = StoreroomNameStub.random();
     StoreroomId storeroomId = StoreroomIdStub.random();
@@ -78,5 +79,22 @@ public class PostgresStoreroomRepositoryShould {
 
     // then
     assertThat(storeroomResult).isEmpty();
+  }
+
+  @Test
+  public void update_storeroom_with_products() {
+    // given
+    Storeroom anExistingStoreroom = StoreroomStub.random();
+    storeroomRepository.save(anExistingStoreroom);
+    anExistingStoreroom.addProduct(ProductStub.random());
+    anExistingStoreroom.addProduct(ProductStub.random());
+
+    // when
+    storeroomRepository.update(anExistingStoreroom);
+
+    // then
+    assertThat(JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "STOREROOM_PRODUCTS",
+            "SP_STOREROOM_ID = '" + anExistingStoreroom.getId().getValue() + "'"))
+            .isEqualTo(2);
   }
 }

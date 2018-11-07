@@ -1,13 +1,18 @@
 package cabanas.garcia.ismael.storeroom.module.storeroom.infrastructure.framework.repository;
 
-import cabanas.garcia.ismael.storeroom.module.product.infrastructure.framework.repository.jooq.autogen.Tables;
+import cabanas.garcia.ismael.storeroom.module.storeroom.domain.Product;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.Storeroom;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomId;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomRepository;
+import cabanas.garcia.ismael.storeroom.module.storeroom.domain.TrackingState;
 import org.jooq.DSLContext;
+import org.jooq.impl.DSL;
 
 import java.util.Optional;
 import java.util.UUID;
+
+import static cabanas.garcia.ismael.storeroom.module.product.infrastructure.framework.repository.jooq.autogen.Tables.STOREROOMS;
+import static cabanas.garcia.ismael.storeroom.product.infrastructure.framework.repository.jooq.autogen.Tables.STOREROOM_PRODUCTS;
 
 public class PostgresStoreroomRepository implements StoreroomRepository {
   private final DSLContext dslContext;
@@ -21,22 +26,36 @@ public class PostgresStoreroomRepository implements StoreroomRepository {
 
   @Override
   public void save(final Storeroom storeroom) {
-    dslContext.insertInto(Tables.STOREROOMS)
-            .set(Tables.STOREROOMS.S_ID, UUID.fromString(storeroom.getId().getValue()))
-            .set(Tables.STOREROOMS.S_NAME, storeroom.getName().getName())
+    dslContext.insertInto(STOREROOMS)
+            .set(STOREROOMS.S_ID, UUID.fromString(storeroom.getId().getValue()))
+            .set(STOREROOMS.S_NAME, storeroom.getName().getName())
+            .returning()
+            .fetchOne();
+  }
+
+  private void save(final StoreroomId storeroomId, final Product product) {
+    dslContext.insertInto(STOREROOM_PRODUCTS)
+            .set(STOREROOM_PRODUCTS.SP_ID, UUID.fromString(product.getId().getValue()))
+            .set(STOREROOM_PRODUCTS.SP_NAME, product.getName().getName())
+            .set(STOREROOM_PRODUCTS.SP_STOREROOM_ID, UUID.fromString(storeroomId.getValue()))
+            .set(STOREROOM_PRODUCTS.SP_CREATION, DSL.currentTimestamp())
+            .set(STOREROOM_PRODUCTS.SP_MODIFICATION, DSL.currentTimestamp())
             .returning()
             .fetchOne();
   }
 
   @Override
-  public Optional<Storeroom> findById(StoreroomId storeroomId) {
-    return dslContext.selectFrom(Tables.STOREROOMS)
-            .where(Tables.STOREROOMS.S_ID.eq(UUID.fromString(storeroomId.getValue())))
+  public Optional<Storeroom> findById(final StoreroomId storeroomId) {
+    return dslContext.selectFrom(STOREROOMS)
+            .where(STOREROOMS.S_ID.eq(UUID.fromString(storeroomId.getValue())))
             .fetchOptional(storeroomDataRecordMapper);
   }
 
   @Override
-  public void update(Storeroom storeroom) {
-
+  public void update(final Storeroom storeroom) {
+    storeroom.products().getProducts().stream()
+            .filter(product -> product.getState() == TrackingState.ADDED)
+            .forEach(product -> save(storeroom.getId(), product));
   }
+
 }

@@ -8,13 +8,14 @@ import java.util.Objects;
 public class Product extends AggregateRoot<Product, ProductId> {
   private final ProductName name;
   private final ProductId id;
-  private StoreroomId storeroomId;
+  private TrackingState state;
 
   private Product(Builder builder) {
     Preconditions.checkNotNull(builder.id, "ProductId should not be null");
     Preconditions.checkNotNull(builder.name, "ProductName should not be null");
     this.name = builder.name;
     this.id = builder.id;
+    this.state = TrackingState.UNCHANGED;
   }
 
   public static Builder builder() {
@@ -25,13 +26,17 @@ public class Product extends AggregateRoot<Product, ProductId> {
     return name;
   }
 
-  public StoreroomId getStoreroomId() {
-    return storeroomId;
+  public TrackingState getState() {
+    return state;
   }
 
   @Override
   public ProductId getId() {
     return id;
+  }
+
+  public void add() {
+    this.state = TrackingState.ADDED;
   }
 
   @Override
@@ -54,10 +59,6 @@ public class Product extends AggregateRoot<Product, ProductId> {
   @Override
   public int hashCode() {
     return Objects.hash(id);
-  }
-
-  public void storeroomId(StoreroomId theStoreroomId) {
-    this.storeroomId = theStoreroomId;
   }
 
   public static final class Builder {

@@ -32,4 +32,5 @@ public class ProductsAddProductShould {
     // then
     assertThat(thrown).isInstanceOf(NullPointerException.class);
   }
+
 }

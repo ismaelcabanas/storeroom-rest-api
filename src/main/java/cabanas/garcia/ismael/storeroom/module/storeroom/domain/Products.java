@@ -27,8 +27,13 @@ public final class Products extends ValueObject<Products> {
   public Products add(Product newProduct) {
     Preconditions.checkNotNull(newProduct, "Product should not be null");
 
+    newProduct.add();
     products.add(newProduct);
     return new Products(new HashSet<>(products));
+  }
+
+  public Set<Product> getProducts() {
+    return products;
   }
 
   @Override
