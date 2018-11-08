@@ -22,7 +22,7 @@ public class AddProduct {
   public void execute(AddProductCommand command) {
     Storeroom storeroom = repository
             .findById(new StoreroomId(command.getStoreroomId()))
-            .orElseThrow(() -> new StoreroomNotFoundException());
+            .orElseThrow(StoreroomNotFoundException::new);
 
     storeroom.addProduct(Product.builder()
             .withId(new ProductId(command.getId()))
