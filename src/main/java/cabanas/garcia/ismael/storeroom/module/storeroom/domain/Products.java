@@ -10,30 +10,30 @@ import java.util.Set;
 public final class Products extends ValueObject<Products> {
   public static final Products EMPTY = new Products();
 
-  private final Set<Product> products;
+  private final Set<Product> productSet;
 
   public Products() {
-    this.products = new HashSet<>();
+    this.productSet = new HashSet<>();
   }
 
-  private Products(Set<Product> products) {
-    this.products = products;
+  private Products(Set<Product> productSet) {
+    this.productSet = productSet;
   }
 
   public boolean contains(Product product) {
-    return products.contains(product);
+    return productSet.contains(product);
   }
 
   public Products add(Product newProduct) {
     Preconditions.checkNotNull(newProduct, "Product should not be null");
 
     newProduct.add();
-    products.add(newProduct);
-    return new Products(new HashSet<>(products));
+    productSet.add(newProduct);
+    return new Products(new HashSet<>(productSet));
   }
 
   public Set<Product> getProducts() {
-    return products;
+    return productSet;
   }
 
   @Override
@@ -53,13 +53,13 @@ public final class Products extends ValueObject<Products> {
 
     Products other = (Products) o;
 
-    return products.size() == other.products.size() && products.containsAll(other.products);
+    return productSet.size() == other.productSet.size() && productSet.containsAll(other.productSet);
   }
 
   @Override
   public int hashCode() {
 
-    return Objects.hash(products);
+    return Objects.hash(productSet);
   }
 
 }
