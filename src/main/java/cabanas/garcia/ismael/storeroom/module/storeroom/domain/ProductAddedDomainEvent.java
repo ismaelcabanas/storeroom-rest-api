@@ -23,6 +23,10 @@ public final class ProductAddedDomainEvent extends DomainEvent {
     return name;
   }
 
+  public String getStoreroomId() {
+    return storeroomId;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
