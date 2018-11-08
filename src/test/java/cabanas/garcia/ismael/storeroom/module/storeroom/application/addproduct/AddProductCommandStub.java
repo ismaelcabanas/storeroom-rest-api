@@ -1,4 +1,4 @@
-package cabanas.garcia.ismael.storeroom.module.storeroom.application.addProduct;
+package cabanas.garcia.ismael.storeroom.module.storeroom.application.addproduct;
 
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.ProductId;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.ProductName;

@@ -1,4 +1,4 @@
-package cabanas.garcia.ismael.storeroom.module.storeroom.application.addProduct;
+package cabanas.garcia.ismael.storeroom.module.storeroom.application.addproduct;
 
 public final class AddProductCommand {
   private final String id;
