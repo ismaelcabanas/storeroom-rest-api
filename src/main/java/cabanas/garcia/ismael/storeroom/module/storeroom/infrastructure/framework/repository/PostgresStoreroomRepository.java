@@ -7,6 +7,8 @@ import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomReposito
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.TrackingState;
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -15,6 +17,9 @@ import static cabanas.garcia.ismael.storeroom.module.product.infrastructure.fram
 import static cabanas.garcia.ismael.storeroom.product.infrastructure.framework.repository.jooq.autogen.Tables.STOREROOM_PRODUCTS;
 
 public class PostgresStoreroomRepository implements StoreroomRepository {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(PostgresStoreroomRepository.class.getName());
+
   private final DSLContext dslContext;
   private final StoreroomDataRecordMapper storeroomDataRecordMapper;
 
@@ -31,6 +36,7 @@ public class PostgresStoreroomRepository implements StoreroomRepository {
             .set(STOREROOMS.S_NAME, storeroom.getName().getName())
             .returning()
             .fetchOne();
+    LOGGER.debug("Storeroom {} saved", storeroom);
   }
 
   private void save(final StoreroomId storeroomId, final Product product) {
@@ -42,6 +48,7 @@ public class PostgresStoreroomRepository implements StoreroomRepository {
             .set(STOREROOM_PRODUCTS.SP_MODIFICATION, DSL.currentTimestamp())
             .returning()
             .fetchOne();
+    LOGGER.debug("Product {} saved in storeroom {}", product, storeroomId);
   }
 
   @Override
@@ -53,6 +60,7 @@ public class PostgresStoreroomRepository implements StoreroomRepository {
 
   @Override
   public void update(final Storeroom storeroom) {
+    LOGGER.debug("Updating {}", storeroom);
     storeroom.products().getProducts().stream()
             .filter(product -> product.getState() == TrackingState.ADDED)
             .forEach(product -> save(storeroom.getId(), product));

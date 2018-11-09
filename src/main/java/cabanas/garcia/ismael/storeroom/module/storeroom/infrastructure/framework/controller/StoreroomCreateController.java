@@ -4,6 +4,8 @@ import cabanas.garcia.ismael.storeroom.module.storeroom.application.create.Store
 import cabanas.garcia.ismael.storeroom.module.storeroom.application.create.StoreroomCreator;
 import cabanas.garcia.ismael.storeroom.module.storeroom.infrastructure.framework.controller.request.NewStoreroomRequest;
 import cabanas.garcia.ismael.storeroom.module.storeroom.infrastructure.framework.controller.response.StoreroomCreatedResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +17,9 @@ import java.net.URI;
 @RestController
 @RequestMapping(path = "/storerooms")
 public class StoreroomCreateController {
+
+  private final static Logger LOGGER = LoggerFactory.getLogger(StoreroomCreateController.class.getName());
+
   private final StoreroomCreator storeroomCreator;
 
   public StoreroomCreateController(final StoreroomCreator service) {
@@ -23,6 +28,7 @@ public class StoreroomCreateController {
 
   @PostMapping
   public ResponseEntity<StoreroomCreatedResponse> execute(@RequestBody NewStoreroomRequest request) {
+    LOGGER.debug("Request {}", request);
     storeroomCreator.execute(StoreroomCreateCommand.builder()
             .withId(request.getId())
             .withName(request.getName())

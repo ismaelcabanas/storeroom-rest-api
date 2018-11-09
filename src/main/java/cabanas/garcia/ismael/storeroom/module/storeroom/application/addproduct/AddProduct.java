@@ -9,8 +9,12 @@ import cabanas.garcia.ismael.storeroom.module.storeroom.domain.Storeroom;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomId;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomNotFoundException;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AddProduct {
+  private static final Logger LOGGER = LoggerFactory.getLogger(AddProduct.class.getName());
+
   private final StoreroomRepository repository;
   private final DomainEventPublisher domainEventPublisher;
 
@@ -23,6 +27,8 @@ public class AddProduct {
     Storeroom storeroom = repository
             .findById(new StoreroomId(command.getStoreroomId()))
             .orElseThrow(StoreroomNotFoundException::new);
+
+    LOGGER.debug("Storeroom {} founded", storeroom);
 
     storeroom.addProduct(Product.builder()
             .withId(new ProductId(command.getId()))
