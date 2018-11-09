@@ -2,6 +2,8 @@ package cabanas.garcia.ismael.storeroom.module.storeroom.domain;
 
 import cabanas.garcia.ismael.shared.domain.aggregate.AggregateRoot;
 import com.google.common.base.Preconditions;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.util.Objects;
 
@@ -59,6 +61,15 @@ public class Product extends AggregateRoot<Product, ProductId> {
   @Override
   public int hashCode() {
     return Objects.hash(id);
+  }
+
+  @Override
+  public String toString() {
+    return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
+            .append("name", name)
+            .append("id", id)
+            .append("state", state)
+            .toString();
   }
 
   public static final class Builder {

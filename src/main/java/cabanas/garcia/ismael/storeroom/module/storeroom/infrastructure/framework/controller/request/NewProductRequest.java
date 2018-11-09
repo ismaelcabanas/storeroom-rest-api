@@ -1,6 +1,8 @@
 package cabanas.garcia.ismael.storeroom.module.storeroom.infrastructure.framework.controller.request;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 @JsonDeserialize(builder = NewProductRequest.Builder.class)
 public final class NewProductRequest {
@@ -18,6 +20,14 @@ public final class NewProductRequest {
 
   public String getName() {
     return name;
+  }
+
+  @Override
+  public String toString() {
+    return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
+            .append("id", id)
+            .append("name", name)
+            .toString();
   }
 
   public static Builder builder() {

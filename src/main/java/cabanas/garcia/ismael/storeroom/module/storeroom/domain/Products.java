@@ -2,14 +2,14 @@ package cabanas.garcia.ismael.storeroom.module.storeroom.domain;
 
 import cabanas.garcia.ismael.shared.domain.ValueObject;
 import com.google.common.base.Preconditions;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 public final class Products extends ValueObject<Products> {
-  public static final Products EMPTY = new Products();
-
   private final Set<Product> productSet;
 
   public Products() {
@@ -62,4 +62,10 @@ public final class Products extends ValueObject<Products> {
     return Objects.hash(productSet);
   }
 
+  @Override
+  public String toString() {
+    return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
+            .append("productSet", productSet)
+            .toString();
+  }
 }

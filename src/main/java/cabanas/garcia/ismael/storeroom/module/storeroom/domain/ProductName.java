@@ -1,6 +1,8 @@
 package cabanas.garcia.ismael.storeroom.module.storeroom.domain;
 
 import cabanas.garcia.ismael.shared.domain.ValueObject;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.util.Objects;
 
@@ -36,5 +38,12 @@ public class ProductName extends ValueObject<ProductName> {
   @Override
   public int hashCode() {
     return Objects.hash(name);
+  }
+
+  @Override
+  public String toString() {
+    return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
+            .append("name", name)
+            .toString();
   }
 }

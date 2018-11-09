@@ -2,6 +2,8 @@ package cabanas.garcia.ismael.storeroom.module.storeroom.domain;
 
 import cabanas.garcia.ismael.shared.domain.aggregate.AggregateRoot;
 import com.google.common.base.Preconditions;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.util.Objects;
 
@@ -16,7 +18,7 @@ public final class Storeroom extends AggregateRoot<Storeroom, StoreroomId> {
     Preconditions.checkNotNull(builder.name, "StoreroomName should not be null");
     this.name = builder.name;
     this.id = builder.id;
-    this.products = Products.EMPTY;
+    this.products = new Products();
   }
 
   public static Builder builder() {
@@ -69,6 +71,15 @@ public final class Storeroom extends AggregateRoot<Storeroom, StoreroomId> {
   @Override
   public int hashCode() {
     return Objects.hash(id);
+  }
+
+  @Override
+  public String toString() {
+    return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
+            .append("name", name)
+            .append("id", id)
+            .append("products", products)
+            .toString();
   }
 
   public static final class Builder {
