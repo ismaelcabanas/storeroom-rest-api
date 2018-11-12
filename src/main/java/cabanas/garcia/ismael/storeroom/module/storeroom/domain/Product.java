@@ -11,6 +11,7 @@ public class Product extends AggregateRoot<Product, ProductId> {
   private final ProductName name;
   private final ProductId id;
   private TrackingState state;
+  private final Stock stock;
 
   private Product(Builder builder) {
     Preconditions.checkNotNull(builder.id, "ProductId should not be null");
@@ -18,6 +19,7 @@ public class Product extends AggregateRoot<Product, ProductId> {
     this.name = builder.name;
     this.id = builder.id;
     this.state = TrackingState.UNCHANGED;
+    this.stock = Stock.ZERO;
   }
 
   public static Builder builder() {
@@ -70,6 +72,10 @@ public class Product extends AggregateRoot<Product, ProductId> {
             .append("id", id)
             .append("state", state)
             .toString();
+  }
+
+  public Stock stock() {
+    return stock;
   }
 
   public static final class Builder {
