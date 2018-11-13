@@ -30,7 +30,7 @@ public class AddProduct {
 
     LOGGER.debug("Storeroom {} founded", storeroom);
 
-    storeroom.addProduct(Product.builder()
+    Product productAdded = storeroom.addProduct(Product.builder()
             .withId(new ProductId(command.getId()))
             .withName(new ProductName(command.getName()))
             .build());
@@ -39,6 +39,6 @@ public class AddProduct {
 
     domainEventPublisher.publish(storeroom.pullDomainEvents());
 
-    return null;
+    return productAdded;
   }
 }

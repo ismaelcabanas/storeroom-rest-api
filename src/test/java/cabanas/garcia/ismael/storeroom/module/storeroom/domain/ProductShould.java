@@ -17,6 +17,6 @@ public class ProductShould {
             .build();
 
     // then
-    assertThat(product.stock()).isEqualTo(Stock.ZERO);
+    assertThat(product.getStock()).isEqualTo(Stock.ZERO);
   }
 }

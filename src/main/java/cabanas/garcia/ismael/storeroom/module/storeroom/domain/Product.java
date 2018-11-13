@@ -74,7 +74,7 @@ public class Product extends AggregateRoot<Product, ProductId> {
             .toString();
   }
 
-  public Stock stock() {
+  public Stock getStock() {
     return stock;
   }
 

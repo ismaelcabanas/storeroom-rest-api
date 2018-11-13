@@ -34,13 +34,14 @@ public final class Storeroom extends AggregateRoot<Storeroom, StoreroomId> {
     return id;
   }
 
-  public void addProduct(Product product) {
+  public Product addProduct(Product product) {
     this.products = products.add(product);
     record(ProductAddedDomainEvent.builder()
             .withId(product.getId().getValue())
             .withName(product.getName().getName())
             .withStoreroomId(this.id.getValue())
             .build());
+    return product;
   }
 
   public Products products() {

@@ -42,7 +42,7 @@ public class StoreroomProductCreateController {
     return ResponseEntity.created(URI.create("/storerooms/" + storeroomId + "/products/" + product.getId().getValue()))
             .body(ProductCreatedResponse.builder()
                     .withName(product.getName().getName())
-                    .withStock(product.stock().getValue())
+                    .withStock(product.getStock().getValue())
                     .build()
             );
   }
