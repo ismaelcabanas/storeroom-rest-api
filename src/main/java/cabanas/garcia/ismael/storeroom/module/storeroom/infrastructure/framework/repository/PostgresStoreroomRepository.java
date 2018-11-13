@@ -33,7 +33,7 @@ public class PostgresStoreroomRepository implements StoreroomRepository {
   public void save(final Storeroom storeroom) {
     dslContext.insertInto(STOREROOMS)
             .set(STOREROOMS.S_ID, UUID.fromString(storeroom.id().getValue()))
-            .set(STOREROOMS.S_NAME, storeroom.getName().getName())
+            .set(STOREROOMS.S_NAME, storeroom.name().getName())
             .returning()
             .fetchOne();
     LOGGER.debug("Storeroom {} saved", storeroom);

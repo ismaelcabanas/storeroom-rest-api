@@ -66,7 +66,7 @@ public class PostgresStoreroomRepositoryShould {
     // then
     assertThat(storeroomResult).isNotEmpty();
     assertThat(storeroomResult.get().id()).isEqualTo(storeroom.id());
-    assertThat(storeroomResult.get().getName()).isEqualTo(storeroom.getName());
+    assertThat(storeroomResult.get().name()).isEqualTo(storeroom.name());
   }
 
   @Test
