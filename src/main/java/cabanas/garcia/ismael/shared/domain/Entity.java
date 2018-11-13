@@ -6,7 +6,7 @@ public abstract class Entity<E, K> {
    *
    * @return The identity
    */
-  protected abstract K getId();
+  protected abstract K id();
 
   /**
    * Entities compare by identity, not by attributes.

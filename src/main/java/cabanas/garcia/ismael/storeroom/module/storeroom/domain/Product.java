@@ -35,7 +35,7 @@ public class Product extends AggregateRoot<Product, ProductId> {
   }
 
   @Override
-  public ProductId getId() {
+  public ProductId id() {
     return id;
   }
 

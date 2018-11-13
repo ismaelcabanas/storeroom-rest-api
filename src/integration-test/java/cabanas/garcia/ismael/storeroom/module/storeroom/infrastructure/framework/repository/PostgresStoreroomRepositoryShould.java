@@ -61,11 +61,11 @@ public class PostgresStoreroomRepositoryShould {
     storeroomRepository.save(storeroom);
 
     // when
-    Optional<Storeroom> storeroomResult = storeroomRepository.findById(storeroom.getId());
+    Optional<Storeroom> storeroomResult = storeroomRepository.findById(storeroom.id());
 
     // then
     assertThat(storeroomResult).isNotEmpty();
-    assertThat(storeroomResult.get().getId()).isEqualTo(storeroom.getId());
+    assertThat(storeroomResult.get().id()).isEqualTo(storeroom.id());
     assertThat(storeroomResult.get().getName()).isEqualTo(storeroom.getName());
   }
 
@@ -94,7 +94,7 @@ public class PostgresStoreroomRepositoryShould {
 
     // then
     assertThat(JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "STOREROOM_PRODUCTS",
-            "SP_STOREROOM_ID = '" + anExistingStoreroom.getId().getValue() + "'"))
+            "SP_STOREROOM_ID = '" + anExistingStoreroom.id().getValue() + "'"))
             .isEqualTo(2);
   }
 }

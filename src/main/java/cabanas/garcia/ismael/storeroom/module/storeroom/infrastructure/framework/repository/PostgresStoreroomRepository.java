@@ -32,7 +32,7 @@ public class PostgresStoreroomRepository implements StoreroomRepository {
   @Override
   public void save(final Storeroom storeroom) {
     dslContext.insertInto(STOREROOMS)
-            .set(STOREROOMS.S_ID, UUID.fromString(storeroom.getId().getValue()))
+            .set(STOREROOMS.S_ID, UUID.fromString(storeroom.id().getValue()))
             .set(STOREROOMS.S_NAME, storeroom.getName().getName())
             .returning()
             .fetchOne();
@@ -41,7 +41,7 @@ public class PostgresStoreroomRepository implements StoreroomRepository {
 
   private void save(final StoreroomId storeroomId, final Product product) {
     dslContext.insertInto(STOREROOM_PRODUCTS)
-            .set(STOREROOM_PRODUCTS.SP_ID, UUID.fromString(product.getId().getValue()))
+            .set(STOREROOM_PRODUCTS.SP_ID, UUID.fromString(product.id().getValue()))
             .set(STOREROOM_PRODUCTS.SP_NAME, product.getName().getName())
             .set(STOREROOM_PRODUCTS.SP_STOREROOM_ID, UUID.fromString(storeroomId.getValue()))
             .set(STOREROOM_PRODUCTS.SP_CREATION, DSL.currentTimestamp())
@@ -63,7 +63,7 @@ public class PostgresStoreroomRepository implements StoreroomRepository {
     LOGGER.debug("Updating {}", storeroom);
     storeroom.products().getProducts().stream()
             .filter(product -> product.getState() == TrackingState.ADDED)
-            .forEach(product -> save(storeroom.getId(), product));
+            .forEach(product -> save(storeroom.id(), product));
   }
 
 }

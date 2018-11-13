@@ -21,7 +21,7 @@ public class PostgresProductRepository implements ProductRepository {
   @Override
   public Product save(final Product product) {
     ProductsRecord record = dslContext.insertInto(Tables.PRODUCTS)
-            .set(Tables.PRODUCTS.P_ID, UUID.fromString(product.getId().getId()))
+            .set(Tables.PRODUCTS.P_ID, UUID.fromString(product.id().getId()))
             .set(Tables.PRODUCTS.P_NAME, product.getName())
             .returning()
             .fetchOne();

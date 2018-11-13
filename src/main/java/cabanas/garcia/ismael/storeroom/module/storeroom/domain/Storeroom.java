@@ -30,14 +30,14 @@ public final class Storeroom extends AggregateRoot<Storeroom, StoreroomId> {
   }
 
   @Override
-  public StoreroomId getId() {
+  public StoreroomId id() {
     return id;
   }
 
   public Product addProduct(Product product) {
     this.products = products.add(product);
     record(ProductAddedDomainEvent.builder()
-            .withId(product.getId().getValue())
+            .withId(product.id().getValue())
             .withName(product.getName().getName())
             .withStoreroomId(this.id.getValue())
             .build());

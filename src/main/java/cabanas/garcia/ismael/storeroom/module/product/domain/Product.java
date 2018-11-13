@@ -17,7 +17,7 @@ public final class Product extends AggregateRoot<Product, ProductId> {
     return new Builder();
   }
 
-  public ProductId getId() {
+  public ProductId id() {
     return productId;
   }
 
@@ -54,7 +54,7 @@ public final class Product extends AggregateRoot<Product, ProductId> {
             .build();
 
     product.record(ProductCreatedDomainEvent.builder()
-            .withId(product.getId().getId())
+            .withId(product.id().getId())
             .withName(product.getName())
             .build());
 

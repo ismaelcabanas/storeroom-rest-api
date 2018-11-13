@@ -23,9 +23,9 @@ public class StoreroomAddProductShould {
     // then
     assertThat(storeroom.pullDomainEvents())
             .contains(ProductAddedDomainEvent.builder()
-                    .withId(product.getId().getValue())
+                    .withId(product.id().getValue())
                     .withName(product.getName().getName())
-                    .withStoreroomId(storeroom.getId().getValue())
+                    .withStoreroomId(storeroom.id().getValue())
                     .build());
   }
 
