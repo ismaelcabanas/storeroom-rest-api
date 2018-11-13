@@ -29,33 +29,11 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.Mockito.verify;
 
 public class AddProductShould {
-  private static final Integer ZERO = 0;
-
   @Rule
   public MockitoRule mockitoRule = MockitoJUnit.rule();
 
   @Mock
   private DomainEventPublisher domainEventPublisher;
-
-  @Test
-  public void return_product_added_in_storeroom() {
-    // given
-    Storeroom storeroom = StoreroomStub.create(StoreroomIdStub.random(), StoreroomNameStub.random());
-    Product product = ProductStub.create(ProductIdStub.random(), ProductNameStub.random());
-    StoreroomRepositoryGettingStoreroomStub storeroomRepository =
-            new StoreroomRepositoryGettingStoreroomStub(storeroom);
-    AddProduct addProduct = new AddProduct(storeroomRepository, domainEventPublisher);
-    AddProductCommand command =
-            AddProductCommandStub.create(storeroom.id(), product.id(), product.name());
-
-    // when
-    Product productAdded = addProduct.execute(command);
-
-    // then
-    assertThat(productAdded.id().getValue()).isEqualTo(command.getId());
-    assertThat(productAdded.name().getName()).isEqualTo(command.getName());
-    assertThat(productAdded.stock().getValue()).isEqualTo(ZERO);
-  }
 
   @Test
   public void update_storeroom_with_new_product() {

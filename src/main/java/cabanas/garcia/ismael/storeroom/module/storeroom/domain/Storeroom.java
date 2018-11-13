@@ -25,7 +25,7 @@ public final class Storeroom extends AggregateRoot<Storeroom, StoreroomId> {
     return new Builder();
   }
 
-  public StoreroomName name () {
+  public StoreroomName name() {
     return name;
   }
 

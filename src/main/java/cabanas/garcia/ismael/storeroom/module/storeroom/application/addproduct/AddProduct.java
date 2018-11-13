@@ -23,14 +23,14 @@ public class AddProduct {
     this.domainEventPublisher = domainEventPublisher;
   }
 
-  public Product execute(AddProductCommand command) {
+  public void execute(AddProductCommand command) {
     Storeroom storeroom = repository
             .findById(new StoreroomId(command.getStoreroomId()))
             .orElseThrow(StoreroomNotFoundException::new);
 
     LOGGER.debug("Storeroom {} founded", storeroom);
 
-    Product productAdded = storeroom.addProduct(Product.builder()
+    storeroom.addProduct(Product.builder()
             .withId(new ProductId(command.getId()))
             .withName(new ProductName(command.getName()))
             .build());
@@ -38,7 +38,5 @@ public class AddProduct {
     repository.update(storeroom);
 
     domainEventPublisher.publish(storeroom.pullDomainEvents());
-
-    return productAdded;
   }
 }

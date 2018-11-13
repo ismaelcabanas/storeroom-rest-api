@@ -1,8 +1,7 @@
 package cabanas.garcia.ismael.storeroom.module.storeroom.infrastructure.framework.controller;
 
-import cabanas.garcia.ismael.storeroom.module.storeroom.application.addproduct.AddProductCommand;
 import cabanas.garcia.ismael.storeroom.module.storeroom.application.addproduct.AddProduct;
-import cabanas.garcia.ismael.storeroom.module.storeroom.domain.Product;
+import cabanas.garcia.ismael.storeroom.module.storeroom.application.addproduct.AddProductCommand;
 import cabanas.garcia.ismael.storeroom.module.storeroom.infrastructure.framework.controller.request.NewProductRequest;
 import cabanas.garcia.ismael.storeroom.module.storeroom.infrastructure.framework.controller.response.ProductCreatedResponse;
 import org.slf4j.Logger;
@@ -32,17 +31,16 @@ public class StoreroomProductCreateController {
           @PathVariable("storeroomId") String storeroomId,
           @RequestBody NewProductRequest request) {
     LOGGER.debug("Request: {}", request);
-    Product product = productCreator.execute(AddProductCommand.builder()
+    productCreator.execute(AddProductCommand.builder()
             .withId(request.getId())
             .withName(request.getName())
             .withStoreroomId(storeroomId)
             .build()
     );
 
-    return ResponseEntity.created(URI.create("/storerooms/" + storeroomId + "/products/" + product.id().getValue()))
+    return ResponseEntity.created(URI.create("/storerooms/" + storeroomId + "/products/" + request.getId()))
             .body(ProductCreatedResponse.builder()
-                    .withName(product.name().getName())
-                    .withStock(product.stock().getValue())
+                    .withName(request.getName())
                     .build()
             );
   }
