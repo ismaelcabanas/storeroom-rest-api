@@ -42,7 +42,7 @@ public class PostgresStoreroomRepository implements StoreroomRepository {
   private void save(final StoreroomId storeroomId, final Product product) {
     dslContext.insertInto(STOREROOM_PRODUCTS)
             .set(STOREROOM_PRODUCTS.SP_ID, UUID.fromString(product.id().getValue()))
-            .set(STOREROOM_PRODUCTS.SP_NAME, product.getName().getName())
+            .set(STOREROOM_PRODUCTS.SP_NAME, product.name().getName())
             .set(STOREROOM_PRODUCTS.SP_STOREROOM_ID, UUID.fromString(storeroomId.getValue()))
             .set(STOREROOM_PRODUCTS.SP_CREATION, DSL.currentTimestamp())
             .set(STOREROOM_PRODUCTS.SP_MODIFICATION, DSL.currentTimestamp())

@@ -38,7 +38,7 @@ public final class Storeroom extends AggregateRoot<Storeroom, StoreroomId> {
     this.products = products.add(product);
     record(ProductAddedDomainEvent.builder()
             .withId(product.id().getValue())
-            .withName(product.getName().getName())
+            .withName(product.name().getName())
             .withStoreroomId(this.id.getValue())
             .build());
     return product;

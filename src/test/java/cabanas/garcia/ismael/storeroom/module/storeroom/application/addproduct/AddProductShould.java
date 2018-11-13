@@ -46,14 +46,14 @@ public class AddProductShould {
             new StoreroomRepositoryGettingStoreroomStub(storeroom);
     AddProduct addProduct = new AddProduct(storeroomRepository, domainEventPublisher);
     AddProductCommand command =
-            AddProductCommandStub.create(storeroom.id(), product.id(), product.getName());
+            AddProductCommandStub.create(storeroom.id(), product.id(), product.name());
 
     // when
     Product productAdded = addProduct.execute(command);
 
     // then
     assertThat(productAdded.id().getValue()).isEqualTo(command.getId());
-    assertThat(productAdded.getName().getName()).isEqualTo(command.getName());
+    assertThat(productAdded.name().getName()).isEqualTo(command.getName());
     assertThat(productAdded.getStock().getValue()).isEqualTo(ZERO);
   }
 
@@ -67,7 +67,7 @@ public class AddProductShould {
     StoreroomRepository storeroomRepositorySpy = Mockito.spy(storeroomRepository);
     AddProduct addProduct = new AddProduct(storeroomRepositorySpy, domainEventPublisher);
     AddProductCommand command =
-            AddProductCommandStub.create(storeroom.id(), product.id(), product.getName());
+            AddProductCommandStub.create(storeroom.id(), product.id(), product.name());
 
     // when
     addProduct.execute(command);
@@ -85,9 +85,9 @@ public class AddProductShould {
             new StoreroomRepositoryGettingStoreroomStub(storeroom);
     AddProduct addProduct = new AddProduct(storeroomRepository, domainEventPublisher);
     AddProductCommand command =
-            AddProductCommandStub.create(storeroom.id(), product.id(), product.getName());
+            AddProductCommandStub.create(storeroom.id(), product.id(), product.name());
     DomainEvent domainEvent =
-            ProductCreatedDomainEventStub.create(storeroom.id(), product.id(), product.getName());
+            ProductCreatedDomainEventStub.create(storeroom.id(), product.id(), product.name());
 
     // when
     addProduct.execute(command);
@@ -103,7 +103,7 @@ public class AddProductShould {
     Storeroom storeroom = StoreroomStub.create(StoreroomIdStub.random(), StoreroomNameStub.random());
     Product product = ProductStub.create(ProductIdStub.random(), ProductNameStub.random());
     AddProductCommand command =
-            AddProductCommandStub.create(storeroom.id(), product.id(), product.getName());
+            AddProductCommandStub.create(storeroom.id(), product.id(), product.name());
 
     // when
     Throwable thrown = catchThrowable(() -> addProduct.execute(command));

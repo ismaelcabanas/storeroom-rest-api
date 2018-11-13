@@ -26,7 +26,7 @@ public class Product extends AggregateRoot<Product, ProductId> {
     return new Builder();
   }
 
-  public ProductName getName() {
+  public ProductName name() {
     return name;
   }
 
