@@ -54,7 +54,7 @@ public class AddProductShould {
     // then
     assertThat(productAdded.id().getValue()).isEqualTo(command.getId());
     assertThat(productAdded.name().getName()).isEqualTo(command.getName());
-    assertThat(productAdded.getStock().getValue()).isEqualTo(ZERO);
+    assertThat(productAdded.stock().getValue()).isEqualTo(ZERO);
   }
 
   @Test
