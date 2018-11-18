@@ -7,7 +7,9 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.util.HashSet;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public final class Products extends ValueObject<Products> {
   private final Set<Product> productSet;
@@ -30,6 +32,13 @@ public final class Products extends ValueObject<Products> {
     newProduct.add();
     productSet.add(newProduct);
     return new Products(new HashSet<>(productSet));
+  }
+
+  public Product find(ProductId id) {
+    return productSet.stream()
+            .filter(p -> p.id().equals(id))
+            .findFirst()
+            .orElseThrow(() -> new ProductNotInStoreroomException(id));
   }
 
   public Set<Product> getProducts() {
@@ -68,4 +77,5 @@ public final class Products extends ValueObject<Products> {
             .append("productSet", productSet)
             .toString();
   }
+
 }
