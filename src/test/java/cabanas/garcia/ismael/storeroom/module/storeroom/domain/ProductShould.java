@@ -53,4 +53,19 @@ public class ProductShould {
     // then
     assertThat(product.stock()).isEqualTo(STOCK_OF_FOUR);
   }
+
+  @Test
+  public void change_state_to_modified_when_add_stock() {
+    // given
+    Product product = Product.builder()
+            .withId(ProductIdStub.random())
+            .withName(ProductNameStub.random())
+            .build();
+
+    // when
+    product.addStock(QUANTITY_TWO);
+
+    // then
+    assertThat(product.getState()).isEqualTo(TrackingState.MODIFIED);
+  }
 }

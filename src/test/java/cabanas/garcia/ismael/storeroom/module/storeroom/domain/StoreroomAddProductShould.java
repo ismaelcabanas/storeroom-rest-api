@@ -57,7 +57,7 @@ public class StoreroomAddProductShould {
   }
 
   @Test
-  public void update_product_stock_when_add_some_quantity_to_existen_product_in_storeroom() {
+  public void update_product_stock_when_add_some_quantity_to_existent_product_in_storeroom() {
     // given
     Storeroom storeroom = StoreroomStub.random();
     Product product = ProductStub.random();

@@ -76,6 +76,7 @@ public class Product extends AggregateRoot<Product, ProductId> {
   }
 
   public void addStock(Quantity quantity) {
+    this.state = TrackingState.MODIFIED;
     this.stock = this.stock.add(quantity);
   }
 
