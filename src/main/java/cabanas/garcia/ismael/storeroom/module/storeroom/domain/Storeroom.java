@@ -35,10 +35,6 @@ public final class Storeroom extends AggregateRoot<Storeroom, StoreroomId> {
   }
 
   public Product addProduct(Product product) {
-    if (product.stock().equals(Stock.ZERO)) {
-      throw new ProductWithStockZeroException("You cannot add product with stock ZERO.");
-    }
-
     this.products = products.add(product);
     record(ProductAddedDomainEvent.builder()
             .withId(product.id().getValue())
@@ -47,6 +43,13 @@ public final class Storeroom extends AggregateRoot<Storeroom, StoreroomId> {
             .build());
     return product;
   }
+
+  public Product reFill(Product product, Quantity quantity) {
+    Product productToRefill = this.products.find(product.id());
+    productToRefill.addStock(quantity);
+    return productToRefill;
+  }
+
 
   public Products products() {
     return products;

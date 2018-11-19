@@ -7,9 +7,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.util.HashSet;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public final class Products extends ValueObject<Products> {
   private final Set<Product> productSet;
@@ -29,7 +27,6 @@ public final class Products extends ValueObject<Products> {
   public Products add(Product newProduct) {
     Preconditions.checkNotNull(newProduct, "Product should not be null");
 
-    newProduct.add();
     productSet.add(newProduct);
     return new Products(new HashSet<>(productSet));
   }
