@@ -17,7 +17,7 @@ public class StoreroomAddProductShould {
   @Test
   public void register_product_added_event() {
     // given
-    Storeroom storeroom = StoreroomStub.random();
+    Storeroom storeroom = StoreroomStub.emptyStoreroom();
     Product product = ProductStub.create(ProductIdStub.random(), ProductNameStub.random());
 
     // when
@@ -35,7 +35,7 @@ public class StoreroomAddProductShould {
   @Test
   public void contains_added_product() {
     // given
-    Storeroom storeroom = StoreroomStub.random();
+    Storeroom storeroom = StoreroomStub.emptyStoreroom();
     Product product = ProductStub.create(ProductIdStub.random(), ProductNameStub.random());
 
     // when
@@ -48,7 +48,7 @@ public class StoreroomAddProductShould {
   @Test
   public void add_product_with_stock_zero_if_product_does_not_exist_in_storeroom() {
     // given
-    Storeroom storeroom = StoreroomStub.random();
+    Storeroom storeroom = StoreroomStub.emptyStoreroom();
     Product product = ProductStub.random();
 
     // when
@@ -61,7 +61,7 @@ public class StoreroomAddProductShould {
   @Test
   public void update_product_stock_when_add_some_quantity_to_existent_product_in_storeroom() {
     // given
-    Storeroom storeroom = StoreroomStub.random();
+    Storeroom storeroom = StoreroomStub.emptyStoreroom();
     Product product = ProductStub.random();
     storeroom.addProduct(product);
     Quantity quantity = Quantity.builder().withValue(3).build();

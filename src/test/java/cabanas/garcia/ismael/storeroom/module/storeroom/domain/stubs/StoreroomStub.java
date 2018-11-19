@@ -16,14 +16,11 @@ public final class StoreroomStub {
             .build();
   }
 
-  public static Storeroom random() {
+  public static Storeroom emptyStoreroom() {
     return Storeroom.builder()
             .withId(StoreroomIdStub.random())
             .withName(StoreroomNameStub.random())
             .build();
   }
 
-  public static Storeroom emptyStoreroom() {
-    return random();
-  }
 }
