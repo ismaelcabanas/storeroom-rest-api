@@ -18,7 +18,7 @@ public final class Storeroom extends AggregateRoot<Storeroom, StoreroomId> {
     Preconditions.checkNotNull(builder.name, "StoreroomName should not be null");
     this.name = builder.name;
     this.id = builder.id;
-    this.products = new Products();
+    this.products = (builder.products == null ? new Products() : builder.products);
   }
 
   public static Builder builder() {
@@ -44,11 +44,11 @@ public final class Storeroom extends AggregateRoot<Storeroom, StoreroomId> {
     return product;
   }
 
-  public Product reFill(Product product, Quantity quantity) {
-    Product productToRefill = this.products.find(product.id());
+  public Product reFill(ProductId productId, Quantity quantity) {
+    Product productToRefill = this.products.find(productId);
     productToRefill.addStock(quantity);
     record(ProductRefilledDomainEvent.builder()
-            .withProductId(product.id().getValue())
+            .withProductId(productId.getValue())
             .withQuantity(quantity.getValue())
             .build());
     return productToRefill;
@@ -97,6 +97,7 @@ public final class Storeroom extends AggregateRoot<Storeroom, StoreroomId> {
   public static final class Builder {
     private StoreroomName name;
     private StoreroomId id;
+    private Products products;
 
     private Builder() {
     }
@@ -115,5 +116,9 @@ public final class Storeroom extends AggregateRoot<Storeroom, StoreroomId> {
       return new Storeroom(this);
     }
 
+    public Builder withProducts(Products val) {
+      this.products = val;
+      return this;
+    }
   }
 }

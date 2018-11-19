@@ -16,7 +16,7 @@ public final class Products extends ValueObject<Products> {
     this.productSet = new HashSet<>();
   }
 
-  private Products(Set<Product> productSet) {
+  public Products(Set<Product> productSet) {
     this.productSet = productSet;
   }
 

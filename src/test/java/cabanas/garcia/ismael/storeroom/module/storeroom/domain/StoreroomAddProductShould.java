@@ -66,7 +66,7 @@ public class StoreroomAddProductShould {
     storeroom.addProduct(product);
 
     // when
-    Product productAdded = storeroom.reFill(product, QUANTITY_THREE);
+    Product productAdded = storeroom.reFill(product.id(), QUANTITY_THREE);
 
     // then
     assertThat(productAdded.stock()).isEqualTo(Stock.builder().withValue(3).build());
@@ -79,7 +79,7 @@ public class StoreroomAddProductShould {
     Product nonExistentProduct = ProductStub.random();
 
     // when
-    Throwable thrown = catchThrowable(() -> storeroom.reFill(nonExistentProduct, QuantityStub.random()));
+    Throwable thrown = catchThrowable(() -> storeroom.reFill(nonExistentProduct.id(), QuantityStub.random()));
 
     // then
     assertThat(thrown).isInstanceOf(ProductNotInStoreroomException.class);
@@ -93,7 +93,7 @@ public class StoreroomAddProductShould {
     storeroom.addProduct(product);
 
     // when
-    storeroom.reFill(product, QUANTITY_THREE);
+    storeroom.reFill(product.id(), QUANTITY_THREE);
 
     // then
     assertThat(storeroom.pullDomainEvents())
