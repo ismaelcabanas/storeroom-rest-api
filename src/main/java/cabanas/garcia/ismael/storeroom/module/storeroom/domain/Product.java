@@ -19,7 +19,7 @@ public class Product extends AggregateRoot<Product, ProductId> {
 
     this.name = builder.name;
     this.id = builder.id;
-    this.state = TrackingState.ADDED;
+    this.state = TrackingState.UNCHANGED;
     this.stock = Stock.empty();
   }
 
@@ -77,6 +77,10 @@ public class Product extends AggregateRoot<Product, ProductId> {
 
   public void addStock(Quantity quantity) {
     this.stock = this.stock.add(quantity);
+  }
+
+  public void added() {
+    this.state = TrackingState.ADDED;
   }
 
   public static final class Builder {

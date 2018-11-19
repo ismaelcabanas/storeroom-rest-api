@@ -27,6 +27,7 @@ public final class Products extends ValueObject<Products> {
   public Products add(Product newProduct) {
     Preconditions.checkNotNull(newProduct, "Product should not be null");
 
+    newProduct.added();
     productSet.add(newProduct);
     return new Products(new HashSet<>(productSet));
   }

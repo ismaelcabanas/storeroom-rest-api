@@ -56,6 +56,33 @@ public class ProductsShould {
   }
 
   @Test
+  public void add_product() {
+    // given
+    Product product = ProductStub.random();
+    Products products = new Products();
+
+    // when
+    Products actual = products.add(product);
+
+    // then
+    assertThat(actual.contains(product)).isTrue();
+  }
+
+  @Test
+  public void add_product_in_added_state() {
+    // given
+    Product product = ProductStub.random();
+    Products products = new Products();
+
+    // when
+    Products actual = products.add(product);
+
+    // then
+    Product productAdded = actual.find(product.id());
+    assertThat(productAdded.getState()).isEqualTo(TrackingState.ADDED);
+  }
+
+  @Test
   public void find_a_product_when_exist() {
     // given
     Products products = new Products();
