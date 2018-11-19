@@ -6,12 +6,10 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.util.Objects;
 
-public final class Stock extends ValueObject<Stock> {
-  private static final int ZERO = 0;
+public class Quantity extends ValueObject<Quantity> {
+  private int value;
 
-  private final int value;
-
-  private Stock(Builder builder) {
+  private Quantity(Builder builder) {
     this.value = builder.value;
   }
 
@@ -20,7 +18,7 @@ public final class Stock extends ValueObject<Stock> {
   }
 
   @Override
-  protected boolean sameValueAs(Stock other) {
+  protected boolean sameValueAs(final Quantity other) {
     return equals(other);
   }
 
@@ -33,9 +31,9 @@ public final class Stock extends ValueObject<Stock> {
       return false;
     }
 
-    Stock stock = (Stock) o;
+    Quantity quantity = (Quantity) o;
 
-    return value == stock.value;
+    return value == quantity.value;
   }
 
   @Override
@@ -54,14 +52,6 @@ public final class Stock extends ValueObject<Stock> {
     return new Builder();
   }
 
-  public static Stock empty() {
-    return Stock.builder().withValue(ZERO).build();
-  }
-
-  public Stock add(Quantity quantity) {
-    return Stock.builder().withValue(value + quantity.getValue()).build();
-  }
-
   public static final class Builder {
     private int value;
 
@@ -70,8 +60,8 @@ public final class Stock extends ValueObject<Stock> {
       return this;
     }
 
-    public Stock build() {
-      return new Stock(this);
+    public Quantity build() {
+      return new Quantity(this);
     }
   }
 }
