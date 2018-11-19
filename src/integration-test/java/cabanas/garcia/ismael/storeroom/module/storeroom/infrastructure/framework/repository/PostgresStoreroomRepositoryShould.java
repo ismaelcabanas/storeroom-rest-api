@@ -57,7 +57,7 @@ public class PostgresStoreroomRepositoryShould {
   @Test
   public void find_existent_storeroom() {
     // given
-    Storeroom storeroom = StoreroomStub.random();
+    Storeroom storeroom = StoreroomStub.emptyStoreroom();
     storeroomRepository.save(storeroom);
 
     // when
@@ -84,7 +84,7 @@ public class PostgresStoreroomRepositoryShould {
   @Test
   public void update_storeroom_with_products() {
     // given
-    Storeroom anExistingStoreroom = StoreroomStub.random();
+    Storeroom anExistingStoreroom = StoreroomStub.emptyStoreroom();
     storeroomRepository.save(anExistingStoreroom);
     anExistingStoreroom.addProduct(ProductStub.random());
     anExistingStoreroom.addProduct(ProductStub.random());

@@ -24,8 +24,8 @@ public final class ProductRefilledDomainEvent extends DomainEvent {
     }
 
     ProductRefilledDomainEvent that = (ProductRefilledDomainEvent) o;
-    return Objects.equals(productId, that.productId) &&
-            Objects.equals(quantity, that.quantity);
+    return Objects.equals(productId, that.productId)
+            && Objects.equals(quantity, that.quantity);
   }
 
   @Override

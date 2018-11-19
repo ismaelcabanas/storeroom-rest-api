@@ -1,7 +1,6 @@
 package cabanas.garcia.ismael.storeroom.module.storeroom.application.refill;
 
 import cabanas.garcia.ismael.shared.domain.event.DomainEventPublisher;
-import cabanas.garcia.ismael.storeroom.module.storeroom.domain.Product;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.ProductId;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.Quantity;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.Storeroom;
