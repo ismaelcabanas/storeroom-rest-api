@@ -5,28 +5,28 @@ import cabanas.garcia.ismael.storeroom.module.storeroom.domain.ProductId;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.Quantity;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.Storeroom;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomId;
+import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomNotFoundException;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomRepository;
 
-import java.util.Optional;
-
 public class RefillProduct {
-  private final StoreroomRepository storeroomRepository;
+  private final StoreroomRepository repository;
   private final DomainEventPublisher domainEventPublisher;
 
   public RefillProduct(StoreroomRepository storeroomRepository, DomainEventPublisher domainEventPublisher) {
-    this.storeroomRepository = storeroomRepository;
+    this.repository = storeroomRepository;
     this.domainEventPublisher = domainEventPublisher;
   }
 
   public void execute(RefillProductCommand command) {
-    Optional<Storeroom> storeroom = storeroomRepository.findById(new StoreroomId(command.getStoreroomId()));
+    Storeroom storeroom = repository
+            .findById(new StoreroomId(command.getStoreroomId()))
+            .orElseThrow(StoreroomNotFoundException::new);
 
-    storeroom.ifPresent(st -> {
-      st.reFill(
-              new ProductId(command.getProductId()),
-              Quantity.builder().withValue(command.getQuantity()).build());
-      storeroomRepository.update(st);
-      domainEventPublisher.publish(st.pullDomainEvents());
-    });
+    storeroom.reFill(
+            new ProductId(command.getProductId()),
+            Quantity.builder().withValue(command.getQuantity()).build()
+    );
+    repository.update(storeroom);
+    domainEventPublisher.publish(storeroom.pullDomainEvents());
   }
 }
