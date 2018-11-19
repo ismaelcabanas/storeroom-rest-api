@@ -47,6 +47,10 @@ public final class Storeroom extends AggregateRoot<Storeroom, StoreroomId> {
   public Product reFill(Product product, Quantity quantity) {
     Product productToRefill = this.products.find(product.id());
     productToRefill.addStock(quantity);
+    record(ProductRefilledDomainEvent.builder()
+            .withProductId(product.id().getValue())
+            .withQuantity(quantity.getValue())
+            .build());
     return productToRefill;
   }
 
