@@ -3,10 +3,12 @@ package cabanas.garcia.ismael.storeroom.module.storeroom.domain;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.stubs.ProductIdStub;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.stubs.ProductNameStub;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.stubs.ProductStub;
+import cabanas.garcia.ismael.storeroom.module.storeroom.domain.stubs.QuantityStub;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.stubs.StoreroomStub;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 
 public class StoreroomAddProductShould {
   private static final Stock STOCK_ONE = Stock.builder().withValue(1).build();
@@ -71,4 +73,16 @@ public class StoreroomAddProductShould {
     assertThat(productAdded.stock()).isEqualTo(Stock.builder().withValue(3).build());
   }
 
+  @Test
+  public void throw_exception_when_refill_not_existent_product_in_storeroom() {
+    // given
+    Storeroom storeroom = StoreroomStub.emptyStoreroom();
+    Product nonExistentProduct = ProductStub.random();
+
+    // when
+    Throwable thrown = catchThrowable(() -> storeroom.reFill(nonExistentProduct, QuantityStub.random()));
+
+    // then
+    assertThat(thrown).isInstanceOf(ProductNotInStoreroomException.class);
+  }
 }

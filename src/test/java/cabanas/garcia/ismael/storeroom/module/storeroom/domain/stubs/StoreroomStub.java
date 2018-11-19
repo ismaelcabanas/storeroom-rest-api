@@ -22,4 +22,8 @@ public final class StoreroomStub {
             .withName(StoreroomNameStub.random())
             .build();
   }
+
+  public static Storeroom emptyStoreroom() {
+    return random();
+  }
 }
