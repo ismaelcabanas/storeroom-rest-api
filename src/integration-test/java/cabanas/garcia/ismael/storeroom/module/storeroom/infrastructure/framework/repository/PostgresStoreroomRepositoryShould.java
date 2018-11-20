@@ -1,6 +1,8 @@
 package cabanas.garcia.ismael.storeroom.module.storeroom.infrastructure.framework.repository;
 
 import cabanas.garcia.ismael.storeroom.infrastructure.framework.configuration.DataBaseConfiguration;
+import cabanas.garcia.ismael.storeroom.module.storeroom.domain.Product;
+import cabanas.garcia.ismael.storeroom.module.storeroom.domain.Quantity;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.Storeroom;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomId;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomName;
@@ -82,7 +84,7 @@ public class PostgresStoreroomRepositoryShould {
   }
 
   @Test
-  public void update_storeroom_with_products() {
+  public void add_products_in_storeroom() {
     // given
     Storeroom anExistingStoreroom = StoreroomStub.emptyStoreroom();
     storeroomRepository.save(anExistingStoreroom);
@@ -96,5 +98,28 @@ public class PostgresStoreroomRepositoryShould {
     assertThat(JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "STOREROOM_PRODUCTS",
             "SP_STOREROOM_ID = '" + anExistingStoreroom.id().getValue() + "'"))
             .isEqualTo(2);
+  }
+
+  @Test
+  public void update_stock_product_in_storeroom() {
+    // given
+    Storeroom anExistingStoreroom = StoreroomStub.emptyStoreroom();
+    storeroomRepository.save(anExistingStoreroom);
+    Product product = ProductStub.random();
+    anExistingStoreroom.addProduct(product);
+    storeroomRepository.update(anExistingStoreroom);
+    Quantity quantity = Quantity.builder().withValue(3).build();
+    anExistingStoreroom.reFill(product.id(), quantity);
+
+    // when
+    storeroomRepository.update(anExistingStoreroom);
+
+    // then
+    assertThat(JdbcTestUtils.countRowsInTableWhere(jdbcTemplate, "STOREROOM_PRODUCTS",
+            "SP_STOREROOM_ID = '"
+                    + anExistingStoreroom.id().getValue()
+                    + "' AND SP_ID='"
+                    + product.id().getValue() + "' AND SP_STOCK=" + quantity.getValue()))
+            .isEqualTo(1);
   }
 }
