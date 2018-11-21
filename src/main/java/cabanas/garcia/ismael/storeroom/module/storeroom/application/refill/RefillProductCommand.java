@@ -1,5 +1,7 @@
 package cabanas.garcia.ismael.storeroom.module.storeroom.application.refill;
 
+import java.util.Objects;
+
 public final class RefillProductCommand {
   private final String productId;
   private final Integer quantity;
@@ -21,6 +23,26 @@ public final class RefillProductCommand {
 
   public String getStoreroomId() {
     return storeroomId;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    RefillProductCommand that = (RefillProductCommand) o;
+    return Objects.equals(productId, that.productId)
+            && Objects.equals(quantity, that.quantity)
+            && Objects.equals(storeroomId, that.storeroomId);
+  }
+
+  @Override
+  public int hashCode() {
+
+    return Objects.hash(productId, quantity, storeroomId);
   }
 
   public static Builder builder() {
