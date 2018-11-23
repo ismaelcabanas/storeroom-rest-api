@@ -53,7 +53,7 @@ public class StoreroomProductRefillControllerShould {
 
     // when
     MockHttpServletResponse response = mvc.perform(
-            post("/storerooms/" + SOME_STOREROOM_ID + "/products/" + SOME_PRODUCT_ID)
+            post("/storerooms/" + SOME_STOREROOM_ID + "/products/" + SOME_PRODUCT_ID + "/refill")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(jsonRequest.write(refillProductRequestBody).getJson()))
             .andReturn().getResponse();

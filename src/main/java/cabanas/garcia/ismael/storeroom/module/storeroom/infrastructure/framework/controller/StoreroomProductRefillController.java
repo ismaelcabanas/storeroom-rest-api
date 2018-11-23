@@ -19,7 +19,7 @@ public class StoreroomProductRefillController {
     this.refillProduct = refillProduct;
   }
 
-  @PostMapping(path = "/storerooms/{storeroomId}/products/{productId}")
+  @PostMapping(path = "/storerooms/{storeroomId}/products/{productId}/refill")
   public ResponseEntity<Void> execute(
           @PathVariable("storeroomId") String storeroomId,
           @PathVariable("productId") String productId,

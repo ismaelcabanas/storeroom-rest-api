@@ -24,9 +24,10 @@ public class AddProduct {
   }
 
   public void execute(AddProductCommand command) {
+    StoreroomId storeroomId = new StoreroomId(command.getStoreroomId());
     Storeroom storeroom = repository
-            .findById(new StoreroomId(command.getStoreroomId()))
-            .orElseThrow(StoreroomNotFoundException::new);
+            .findById(storeroomId)
+            .orElseThrow(() -> new StoreroomNotFoundException(storeroomId));
 
     LOGGER.debug("Storeroom {} founded", storeroom);
 

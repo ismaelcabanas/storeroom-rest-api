@@ -4,22 +4,21 @@ Feature: Add a given product to Storeroom throught a REST API
   I want a REST API to add a given product to my storeroom
 
   Background:
-    * configure logPrettyRequest = true
-    * configure logPrettyResponse = true
     * url baseUrl
+    * def storeroomId = callonce read('classpath:uuidGenerator.js')
+    * print storeroomId
+    * def productId = call read('classpath:uuidGenerator.js')
+    * def productName = call read('classpath:stringGenerator.js') 25
+    * callonce read('storeroom-create.feature') {storeroomId : '7c1f97fc-ed10-4134-b92b-81e94ef54208'}
+
 
   Scenario: Add product with all the required information to given storeroom
-    Given path '/storerooms/'
-    And request {id: '41facbbc-caf0-4d4e-a31a-d6e1d4166dd9', name: 'My Storeroom A'}
+    Given path '/storerooms', storeroomId, 'products'
+    And request {id: '#(productId)', name: '#(productName)'}
     When method post
     Then status 201
-
-    Given path '/storerooms/41facbbc-caf0-4d4e-a31a-d6e1d4166dd9/products'
-    And request {id: 'feca488a-2fd6-4c91-b56d-7700e04adad2', name: 'Product A'}
-    When method post
-    Then status 201
-    And match response contains {name: 'Product A'}
-    And header location = '/storerooms/41facbbc-caf0-4d4e-a31a-d6e1d4166dd9/products/feca488a-2fd6-4c91-b56d-7700e04adad2'
+    And match response contains {name: '#(productName)'}
+    And header location = '/storerooms/#(storeroomId)/products/#(productId)'
 
 #  Scenario: Add product into given storeroom with existent product identifier
 #    Given path '/storerooms/'

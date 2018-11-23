@@ -28,7 +28,7 @@ public class StoreroomCreateController {
 
   @PostMapping
   public ResponseEntity<StoreroomCreatedResponse> execute(@RequestBody NewStoreroomRequest request) {
-    LOGGER.debug("Request {}", request);
+    LOGGER.debug("Create Storeroom Request with data {}", request);
     storeroomCreator.execute(StoreroomCreateCommand.builder()
             .withId(request.getId())
             .withName(request.getName())

@@ -18,9 +18,10 @@ public class RefillProduct {
   }
 
   public void execute(RefillProductCommand command) {
+    StoreroomId storeroomId = new StoreroomId(command.getStoreroomId());
     Storeroom storeroom = repository
-            .findById(new StoreroomId(command.getStoreroomId()))
-            .orElseThrow(StoreroomNotFoundException::new);
+            .findById(storeroomId)
+            .orElseThrow(() -> new StoreroomNotFoundException(storeroomId));
 
     storeroom.reFill(
             new ProductId(command.getProductId()),
