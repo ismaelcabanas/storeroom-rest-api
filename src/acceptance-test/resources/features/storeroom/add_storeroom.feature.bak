@@ -4,14 +4,14 @@ Feature: Add a Storeroom throught a REST API
   I want a REST API to create a storeroom with a given name
 
   Background:
-    * configure logPrettyRequest = true
-    * configure logPrettyResponse = true
     * url baseUrl
+    * def storeroomId = call read('classpath:uuidGenerator.js')
+    * def storeroomName = call read('classpath:stringGenerator.js') 25
 
   Scenario: Create storeroom with all the required information
     Given path '/storerooms'
-    And request {id: 'dfd5056c-0f89-476b-a9eb-f1865d9e36e5', name: 'My Storeroom'}
+    And request {id: '#(storeroomId)', name: '#(storeroomName)'}
     When method post
     Then status 201
-    And match response == {name: 'My Storeroom'}
-    And header location = '/storerooms/dfd5056c-0f89-476b-a9eb-f1865d9e36e5'
+    And match response == {name: '#(storeroomName)'}
+    And header location = '/storerooms/#(storeroomId)'

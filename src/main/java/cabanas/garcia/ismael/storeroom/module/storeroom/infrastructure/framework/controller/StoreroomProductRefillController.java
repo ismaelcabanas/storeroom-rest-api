@@ -2,9 +2,12 @@ package cabanas.garcia.ismael.storeroom.module.storeroom.infrastructure.framewor
 
 import cabanas.garcia.ismael.storeroom.module.storeroom.application.refill.RefillProduct;
 import cabanas.garcia.ismael.storeroom.module.storeroom.application.refill.RefillProductCommand;
+import cabanas.garcia.ismael.storeroom.module.storeroom.domain.ProductNotInStoreroomException;
 import cabanas.garcia.ismael.storeroom.module.storeroom.infrastructure.framework.controller.request.RefillProductRequestBody;
+import cabanas.garcia.ismael.storeroom.module.storeroom.infrastructure.framework.controller.response.ErrorDetailsResponseBody;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,5 +35,11 @@ public class StoreroomProductRefillController {
             .build());
 
     return new ResponseEntity<>(HttpStatus.OK);
+  }
+
+  @ExceptionHandler(ProductNotInStoreroomException.class)
+  public final ResponseEntity<ErrorDetailsResponseBody> handleProductNotInStoreroomException(ProductNotInStoreroomException ex) {
+    ErrorDetailsResponseBody errorDetails = new ErrorDetailsResponseBody("", ex.getMessage());
+    return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
   }
 }

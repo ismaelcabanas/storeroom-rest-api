@@ -43,6 +43,10 @@ public final class Products extends ValueObject<Products> {
     return productSet;
   }
 
+  public int size() {
+    return productSet.size();
+  }
+
   @Override
   protected boolean sameValueAs(Products other) {
     return equals(other);

@@ -6,10 +6,9 @@ Feature: Add a given product to Storeroom throught a REST API
   Background:
     * url baseUrl
     * def storeroomId = callonce read('classpath:uuidGenerator.js')
-    * print storeroomId
     * def productId = call read('classpath:uuidGenerator.js')
     * def productName = call read('classpath:stringGenerator.js') 25
-    * callonce read('storeroom-create.feature') {storeroomId : '7c1f97fc-ed10-4134-b92b-81e94ef54208'}
+    * callonce read('storeroom-create.feature') {storeroomId : '#(storeroomId)'}
 
 
   Scenario: Add product with all the required information to given storeroom

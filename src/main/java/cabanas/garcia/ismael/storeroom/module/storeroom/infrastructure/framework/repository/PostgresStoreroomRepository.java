@@ -1,6 +1,7 @@
 package cabanas.garcia.ismael.storeroom.module.storeroom.infrastructure.framework.repository;
 
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.Product;
+import cabanas.garcia.ismael.storeroom.module.storeroom.domain.Products;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.Storeroom;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomId;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomRepository;
@@ -9,8 +10,11 @@ import org.jooq.impl.DSL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static cabanas.garcia.ismael.storeroom.module.product.infrastructure.framework.repository.jooq.autogen.Tables.STOREROOMS;
 import static cabanas.garcia.ismael.storeroom.product.infrastructure.framework.repository.jooq.autogen.Tables.STOREROOM_PRODUCTS;
@@ -21,11 +25,14 @@ public class PostgresStoreroomRepository implements StoreroomRepository {
 
   private final DSLContext dslContext;
   private final StoreroomDataRecordMapper storeroomDataRecordMapper;
+  private final ProductsDataRecordMapper productsDataRecordMapper;
 
   public PostgresStoreroomRepository(DSLContext dslContext,
-                                     StoreroomDataRecordMapper storeroomDataRecordMapper) {
+                                     StoreroomDataRecordMapper storeroomDataRecordMapper,
+                                     ProductsDataRecordMapper productsDataRecordMapper) {
     this.dslContext = dslContext;
     this.storeroomDataRecordMapper = storeroomDataRecordMapper;
+    this.productsDataRecordMapper = productsDataRecordMapper;
   }
 
   @Override
@@ -66,9 +73,16 @@ public class PostgresStoreroomRepository implements StoreroomRepository {
 
   @Override
   public Optional<Storeroom> findById(final StoreroomId storeroomId) {
-    return dslContext.selectFrom(STOREROOMS)
+    Optional<Storeroom> storeroom = dslContext.selectFrom(STOREROOMS)
             .where(STOREROOMS.S_ID.eq(UUID.fromString(storeroomId.getValue())))
             .fetchOptional(storeroomDataRecordMapper);
+
+    List<Product> products = dslContext.selectFrom(STOREROOM_PRODUCTS)
+            .where(STOREROOM_PRODUCTS.SP_STOREROOM_ID.eq(UUID.fromString(storeroomId.getValue())))
+            .orderBy(STOREROOM_PRODUCTS.SP_NAME)
+            .fetch(productsDataRecordMapper);
+
+    return (storeroom.isPresent() ? storeroomWithProducts(storeroom.get(), products) : storeroom);
   }
 
   @Override
@@ -78,4 +92,11 @@ public class PostgresStoreroomRepository implements StoreroomRepository {
             .forEach(product -> save(storeroom.id(), product));
   }
 
+  private Optional<Storeroom> storeroomWithProducts(final Storeroom storeroom, final List<Product> products) {
+    return Optional.of(Storeroom.builder()
+            .withName(storeroom.name())
+            .withId(storeroom.id())
+            .withProducts(new Products(new HashSet<>(products)))
+            .build());
+  }
 }
