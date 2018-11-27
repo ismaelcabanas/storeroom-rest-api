@@ -18,7 +18,7 @@ import java.net.URI;
 @RequestMapping(path = "/storerooms")
 public class StoreroomCreateController {
 
-  private final static Logger LOGGER = LoggerFactory.getLogger(StoreroomCreateController.class.getName());
+  private static final Logger LOGGER = LoggerFactory.getLogger(StoreroomCreateController.class.getName());
 
   private final StoreroomCreator storeroomCreator;
 
