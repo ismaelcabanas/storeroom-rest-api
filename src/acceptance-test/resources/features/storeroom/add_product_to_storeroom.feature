@@ -11,13 +11,20 @@ Feature: Add a given product to Storeroom throught a REST API
     * callonce read('storeroom-create.feature') {storeroomId : '#(storeroomId)'}
 
 
-  Scenario: Add product with all the required information to given storeroom
+  Scenario: Add new product with all the required information to given storeroom
     Given path '/storerooms', storeroomId, 'products'
     And request {id: '#(productId)', name: '#(productName)'}
     When method post
     Then status 201
     And match response contains {name: '#(productName)'}
     And header location = '/storerooms/#(storeroomId)/products/#(productId)'
+
+#  Scenario: Add new product with stock 0
+#    Given path '/storerooms', storeroomId, 'products'
+#    And request {id: '#(productId)', name: '#(productName)'}
+#    When method post
+#    Then status 201
+#    And match response contains {stock: 0}
 
 #  Scenario: Add product into given storeroom with existent product identifier
 #    Given path '/storerooms/'

@@ -28,8 +28,8 @@ public class ErrorDetailsResponseBody {
       return false;
     }
     ErrorDetailsResponseBody that = (ErrorDetailsResponseBody) o;
-    return Objects.equals(message, that.message) &&
-            Objects.equals(details, that.details);
+    return Objects.equals(message, that.message)
+            && Objects.equals(details, that.details);
   }
 
   @Override

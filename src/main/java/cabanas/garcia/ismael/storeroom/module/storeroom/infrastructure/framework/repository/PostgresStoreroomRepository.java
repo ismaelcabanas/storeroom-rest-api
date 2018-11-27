@@ -14,7 +14,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import static cabanas.garcia.ismael.storeroom.module.product.infrastructure.framework.repository.jooq.autogen.Tables.STOREROOMS;
 import static cabanas.garcia.ismael.storeroom.product.infrastructure.framework.repository.jooq.autogen.Tables.STOREROOM_PRODUCTS;

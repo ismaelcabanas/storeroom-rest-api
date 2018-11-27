@@ -122,4 +122,22 @@ public class PostgresStoreroomRepositoryShould {
                     + product.id().getValue() + "' AND SP_STOCK=" + quantity.getValue()))
             .isEqualTo(1);
   }
+
+  @Test
+  public void find_storeroom_with_products() {
+    // given
+    Storeroom storeroom = StoreroomStub.emptyStoreroom();
+    storeroomRepository.save(storeroom);
+    Product productOne = ProductStub.random();
+    Product productTwo = ProductStub.random();
+    storeroom.addProduct(productOne);
+    storeroom.addProduct(productTwo);
+    storeroomRepository.update(storeroom);
+
+    // when
+    Optional<Storeroom> storeroomResult = storeroomRepository.findById(storeroom.id());
+
+    // then
+    assertThat(storeroomResult.get().products().size()).isEqualTo(2);
+  }
 }

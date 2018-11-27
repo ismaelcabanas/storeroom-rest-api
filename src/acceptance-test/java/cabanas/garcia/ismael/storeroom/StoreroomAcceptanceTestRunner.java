@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
  * in src/test/resources and even recurse sub-directories
  */
 @RunWith(Karate.class)
-@CucumberOptions(features = "classpath:features/")
+@CucumberOptions(tags = {"~@ignore"}, features = "classpath:features/")
 public final class StoreroomAcceptanceTestRunner {
 
 }
