@@ -3,7 +3,6 @@ package cabanas.garcia.ismael.storeroom.module.storeroom.infrastructure.framewor
 import cabanas.garcia.ismael.storeroom.module.storeroom.application.create.StoreroomCreateCommand;
 import cabanas.garcia.ismael.storeroom.module.storeroom.application.create.StoreroomCreator;
 import cabanas.garcia.ismael.storeroom.module.storeroom.infrastructure.framework.controller.request.NewStoreroomRequest;
-import cabanas.garcia.ismael.storeroom.module.storeroom.infrastructure.framework.controller.response.StoreroomCreatedResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +26,7 @@ public class StoreroomCreateController {
   }
 
   @PostMapping
-  public ResponseEntity<StoreroomCreatedResponse> execute(@RequestBody NewStoreroomRequest request) {
+  public ResponseEntity<Void> execute(@RequestBody NewStoreroomRequest request) {
     LOGGER.debug("Create Storeroom Request with data {}", request);
     storeroomCreator.execute(StoreroomCreateCommand.builder()
             .withId(request.getId())
@@ -35,10 +34,6 @@ public class StoreroomCreateController {
             .build()
     );
 
-    return ResponseEntity.created(URI.create("/storerooms/" + request.getId()))
-            .body(StoreroomCreatedResponse.builder()
-                    .withName(request.getName())
-                    .build()
-            );
+    return ResponseEntity.created(URI.create("/storerooms/" + request.getId())).build();
   }
 }

@@ -2,7 +2,6 @@ package cabanas.garcia.ismael.storeroom.module.storeroom.infrastructure.framewor
 
 import cabanas.garcia.ismael.storeroom.module.storeroom.application.create.StoreroomCreator;
 import cabanas.garcia.ismael.storeroom.module.storeroom.infrastructure.framework.controller.request.NewStoreroomRequest;
-import cabanas.garcia.ismael.storeroom.module.storeroom.infrastructure.framework.controller.response.StoreroomCreatedResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,7 +38,6 @@ public class StoreroomCreateControllerShould {
   private StoreroomCreator storeroomCreator;
 
   private JacksonTester<NewStoreroomRequest> jsonResult;
-  private JacksonTester<StoreroomCreatedResponse> jsonResponse;
 
   @Before
   public void setup() {
@@ -65,9 +63,5 @@ public class StoreroomCreateControllerShould {
     // then
     assertThat(response.getStatus()).isEqualTo(HttpStatus.CREATED.value());
     assertThat(response.getHeaderValue(HttpHeaders.LOCATION)).isEqualTo("/storerooms/" + SOME_UUID);
-    assertThat(response.getContentAsString()).isEqualTo(
-            jsonResponse.write(StoreroomCreatedResponse.builder()
-                    .withName(SOME_PRODUCT_NAME)
-                    .build()).getJson());
   }
 }

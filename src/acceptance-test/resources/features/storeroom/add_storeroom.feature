@@ -13,5 +13,4 @@ Feature: Add a Storeroom throught a REST API
     And request {id: '#(storeroomId)', name: '#(storeroomName)'}
     When method post
     Then status 201
-    And match response == {name: '#(storeroomName)'}
     And header location = '/storerooms/#(storeroomId)'
