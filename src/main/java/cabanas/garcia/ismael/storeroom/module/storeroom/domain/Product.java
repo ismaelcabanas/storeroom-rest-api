@@ -20,7 +20,7 @@ public class Product extends AggregateRoot<Product, ProductId> {
     this.name = builder.name;
     this.id = builder.id;
     this.state = TrackingState.UNCHANGED;
-    this.stock = Stock.empty();
+    this.stock = (builder.stock != null ? builder.stock : Stock.empty());
   }
 
   public static Builder builder() {
@@ -80,6 +80,11 @@ public class Product extends AggregateRoot<Product, ProductId> {
     this.stock = this.stock.add(quantity);
   }
 
+  public void removeStock(Quantity quantity) {
+    this.state = TrackingState.MODIFIED;
+    this.stock = this.stock.decrease(quantity);
+  }
+
   public void added() {
     this.state = TrackingState.ADDED;
   }
@@ -87,6 +92,7 @@ public class Product extends AggregateRoot<Product, ProductId> {
   public static final class Builder {
     private ProductName name;
     private ProductId id;
+    private Stock stock;
 
     private Builder() {
     }
@@ -105,5 +111,9 @@ public class Product extends AggregateRoot<Product, ProductId> {
       return new Product(this);
     }
 
+    public Builder withStock(Stock value) {
+      this.stock = value;
+      return this;
+    }
   }
 }

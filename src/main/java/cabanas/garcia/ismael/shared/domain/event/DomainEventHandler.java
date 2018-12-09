@@ -1,8 +1,8 @@
 package cabanas.garcia.ismael.shared.domain.event;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class DomainEventHandler implements DomainEventPublisher, DomainEventSubscription {
@@ -10,7 +10,7 @@ public class DomainEventHandler implements DomainEventPublisher, DomainEventSubs
   private Set<DomainEventSubscriber> subscribers = new HashSet<>();
 
   @Override
-  public <T extends DomainEvent> DomainEventPublisher publish(List<T> events) {
+  public <T extends DomainEvent> DomainEventPublisher publish(Collection<T> events) {
     subscribers.forEach(
         subscriber -> events.stream()
         .filter(subscriber::isSubscribedTo)

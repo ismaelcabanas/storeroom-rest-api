@@ -54,6 +54,15 @@ public final class Storeroom extends AggregateRoot<Storeroom, StoreroomId> {
     return productToRefill;
   }
 
+  public Product consume(ProductId productId, Quantity quantity) {
+    Product productFromConsume = this.products.find(productId);
+    productFromConsume.removeStock(quantity);
+    record(ProductConsumedDomainEvent.builder()
+            .withProductId(productId.getValue())
+            .withQuantity(quantity.getValue())
+            .build());
+    return productFromConsume;
+  }
 
   public Products products() {
     return products;

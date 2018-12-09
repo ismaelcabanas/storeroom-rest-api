@@ -77,7 +77,7 @@ public class StoreroomProductRefillControllerShould {
     RefillProductRequestBody refillProductRequestBody = RefillProductRequestBody.builder()
             .withQuantity(SOME_QUANTITY)
             .build();
-    willThrow(new ProductNotInStoreroomException(new ProductId("aProductId")))
+    willThrow(new ProductNotInStoreroomException(new ProductId(SOME_PRODUCT_ID)))
             .given(refillProduct)
             .execute(Mockito.any(RefillProductCommand.class));
 

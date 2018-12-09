@@ -4,15 +4,18 @@ import cabanas.garcia.ismael.shared.domain.event.DomainEvent;
 
 import java.util.Objects;
 
-public final class ProductRefilledDomainEvent extends DomainEvent {
+public class ProductConsumedDomainEvent extends DomainEvent {
   private final String productId;
   private final Integer quantity;
 
-  private ProductRefilledDomainEvent(Builder builder) {
+  private ProductConsumedDomainEvent(Builder builder) {
     this.productId = builder.productId;
     this.quantity = builder.quantity;
   }
 
+  public static Builder builder() {
+    return new Builder();
+  }
 
   @Override
   public boolean equals(Object o) {
@@ -23,18 +26,15 @@ public final class ProductRefilledDomainEvent extends DomainEvent {
       return false;
     }
 
-    ProductRefilledDomainEvent that = (ProductRefilledDomainEvent) o;
+    ProductConsumedDomainEvent that = (ProductConsumedDomainEvent) o;
     return Objects.equals(productId, that.productId)
             && Objects.equals(quantity, that.quantity);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(productId, quantity);
-  }
 
-  public static Builder builder() {
-    return new Builder();
+    return Objects.hash(productId, quantity);
   }
 
   public static final class Builder {
@@ -49,13 +49,13 @@ public final class ProductRefilledDomainEvent extends DomainEvent {
       return this;
     }
 
-    public ProductRefilledDomainEvent build() {
-      return new ProductRefilledDomainEvent(this);
-    }
-
     public Builder withQuantity(Integer val) {
       this.quantity = val;
       return this;
+    }
+
+    public ProductConsumedDomainEvent build() {
+      return new ProductConsumedDomainEvent(this);
     }
   }
 }

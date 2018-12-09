@@ -62,6 +62,13 @@ public final class Stock extends ValueObject<Stock> {
     return Stock.builder().withValue(value + quantity.getValue()).build();
   }
 
+  public Stock decrease(Quantity quantity) {
+    if (quantity.getValue() > this.value) {
+      throw new StockOverflowException();
+    }
+    return Stock.builder().withValue(value - quantity.getValue()).build();
+  }
+
   public static final class Builder {
     private int value;
 

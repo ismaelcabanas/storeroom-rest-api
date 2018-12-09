@@ -1,14 +1,17 @@
 package cabanas.garcia.ismael.storeroom.module.storeroom.infrastructure.framework.controller.response;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import java.util.Objects;
 
+@JsonDeserialize(builder = ErrorDetailsResponseBody.Builder.class)
 public class ErrorDetailsResponseBody {
   private final String message;
   private final String details;
 
-  public ErrorDetailsResponseBody(String message, String details) {
-    this.message = message;
-    this.details = details;
+  private ErrorDetailsResponseBody(Builder builder) {
+    this.message = builder.message;
+    this.details = builder.details;
   }
 
   public String getMessage() {
@@ -18,6 +21,7 @@ public class ErrorDetailsResponseBody {
   public String getDetails() {
     return details;
   }
+
 
   @Override
   public boolean equals(Object o) {
@@ -35,5 +39,32 @@ public class ErrorDetailsResponseBody {
   @Override
   public int hashCode() {
     return Objects.hash(message, details);
+  }
+
+  public static Builder builder() {
+    return new Builder();
+  }
+
+
+  public static final class Builder {
+    private String message;
+    private String details;
+
+    private Builder() {
+    }
+
+    public Builder withMessage(String val) {
+      this.message = val;
+      return this;
+    }
+
+    public Builder withDetails(String val) {
+      this.details = val;
+      return this;
+    }
+
+    public ErrorDetailsResponseBody build() {
+      return new ErrorDetailsResponseBody(this);
+    }
   }
 }

@@ -3,6 +3,7 @@ package cabanas.garcia.ismael.storeroom.module.storeroom.infrastructure.framewor
 import cabanas.garcia.ismael.storeroom.infrastructure.framework.configuration.DataBaseConfiguration;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.Product;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.Quantity;
+import cabanas.garcia.ismael.storeroom.module.storeroom.domain.Stock;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.Storeroom;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomId;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomName;
@@ -124,20 +125,23 @@ public class PostgresStoreroomRepositoryShould {
   }
 
   @Test
-  public void find_storeroom_with_products() {
+  public void find_storeroom_with_product_with_two_units_of_stock() {
     // given
-    Storeroom storeroom = StoreroomStub.emptyStoreroom();
-    storeroomRepository.save(storeroom);
-    Product productOne = ProductStub.random();
-    Product productTwo = ProductStub.random();
-    storeroom.addProduct(productOne);
-    storeroom.addProduct(productTwo);
-    storeroomRepository.update(storeroom);
+    Storeroom currentStoreroom = StoreroomStub.emptyStoreroom();
+    storeroomRepository.save(currentStoreroom);
+    Product product = ProductStub.random();
+    currentStoreroom.addProduct(product);
+    storeroomRepository.update(currentStoreroom);
+    currentStoreroom.reFill(product.id(), Quantity.builder().withValue(2).build());
+    storeroomRepository.update(currentStoreroom);
 
     // when
-    Optional<Storeroom> storeroomResult = storeroomRepository.findById(storeroom.id());
+    Storeroom storeroom = storeroomRepository.findById(currentStoreroom.id()).get();
 
     // then
-    assertThat(storeroomResult.get().products().size()).isEqualTo(2);
+    assertThat(storeroom.products().getProducts()).isNotEmpty();
+    assertThat(storeroom.products().size()).isEqualTo(1);
+    assertThat(storeroom.products().find(product.id()).stock()).isEqualTo(Stock.builder().withValue(2).build());
+    assertThat(storeroom.products().find(product.id()).name()).isEqualTo(product.name());
   }
 }

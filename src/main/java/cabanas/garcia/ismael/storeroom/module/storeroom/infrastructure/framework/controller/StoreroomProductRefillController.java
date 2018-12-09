@@ -39,7 +39,7 @@ public class StoreroomProductRefillController {
 
   @ExceptionHandler(ProductNotInStoreroomException.class)
   public final ResponseEntity<ErrorDetailsResponseBody> handleProductNotInStoreroomException(ProductNotInStoreroomException ex) {
-    ErrorDetailsResponseBody errorDetails = new ErrorDetailsResponseBody("", ex.getMessage());
+    ErrorDetailsResponseBody errorDetails = ErrorDetailsResponseBody.builder().withMessage(ex.getMessage()).build();
     return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
   }
 }
