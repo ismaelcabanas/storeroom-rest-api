@@ -8,5 +8,5 @@ spring:
     password: inf123sboj
 
 jooq:
-  package-name: cabanas.garcia.ismael.storeroom.product.infrastructure.framework.repository.jooq
+  package-name: cabanas.garcia.ismael.storeroom.module.storeroom.infrastructure.framework.repository.jooq
   database: org.jooq.util.postgres.PostgresDatabase

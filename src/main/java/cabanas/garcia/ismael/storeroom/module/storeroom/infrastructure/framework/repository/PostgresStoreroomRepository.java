@@ -16,7 +16,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static cabanas.garcia.ismael.storeroom.module.product.infrastructure.framework.repository.jooq.autogen.Tables.STOREROOMS;
-import static cabanas.garcia.ismael.storeroom.product.infrastructure.framework.repository.jooq.autogen.Tables.STOREROOM_PRODUCTS;
+import static cabanas.garcia.ismael.storeroom.module.storeroom.infrastructure.framework.repository.jooq.autogen.Tables.STOREROOM_PRODUCTS;
 
 public class PostgresStoreroomRepository implements StoreroomRepository {
 
