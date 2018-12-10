@@ -1,8 +1,8 @@
 package cabanas.garcia.ismael.storeroom.module.product.infrastructure.framework.configuration;
 
 import cabanas.garcia.ismael.storeroom.module.product.domain.ProductRepository;
-import cabanas.garcia.ismael.storeroom.module.product.infrastructure.framework.repository.PostgresProductRepository;
-import cabanas.garcia.ismael.storeroom.module.product.infrastructure.framework.repository.ProductDataRecordMapper;
+import cabanas.garcia.ismael.storeroom.module.product.infrastructure.repository.PostgresProductRepository;
+import cabanas.garcia.ismael.storeroom.module.product.infrastructure.repository.ProductDataRecordMapper;
 import org.jooq.DSLContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

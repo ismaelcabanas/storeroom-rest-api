@@ -17,6 +17,6 @@
         <Package name="~cabanas\.garcia\.ismael\.storeroom\.bdd\.steps.*"/>
     </Match>
     <Match>
-        <Package name="~cabanas\.garcia\.ismael\.storeroom\.module\.storeroom\.infrastructure\.framework\.repository\.jooq.*"/>
+        <Package name="~cabanas\.garcia\.ismael\.storeroom\.module\.storeroom\.infrastructure\.repository\.jooq.*"/>
     </Match>
 </FindBugsFilter>
