@@ -2,23 +2,24 @@ package cabanas.garcia.ismael.storeroom.module.storeroom.application.refill;
 
 import cabanas.garcia.ismael.shared.domain.event.DomainEvent;
 import cabanas.garcia.ismael.shared.domain.event.DomainEventPublisher;
+import cabanas.garcia.ismael.storeroom.module.storeroom.domain.FakeInMemmoryStoreroomRepository;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.Product;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.ProductRefilledDomainEvent;
+import cabanas.garcia.ismael.storeroom.module.storeroom.domain.Quantity;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.Storeroom;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomNotFoundException;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomRepository;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.stubs.ProductStub;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.stubs.QuantityStub;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.stubs.StoreroomRepositoryDontGetStoreroomWhenFindByIdStub;
-import cabanas.garcia.ismael.storeroom.module.storeroom.domain.stubs.StoreroomRepositoryGettingStoreroomStub;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.stubs.StoreroomStub;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
+import java.util.Arrays;
 import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -33,37 +34,37 @@ public class RefillProductShould {
   private DomainEventPublisher domainEventPublisher;
 
   @Test
-  public void update_storeroom() {
+  public void update_stock_product_when_refill_it() {
     // given
     Product product = ProductStub.random();
     Storeroom storeroom = StoreroomStub.createWithProducts(product);
+    Quantity quantity = QuantityStub.random();
 
-    StoreroomRepositoryGettingStoreroomStub storeroomRepository =
-            new StoreroomRepositoryGettingStoreroomStub(storeroom);
-    StoreroomRepository storeroomRepositorySpy = Mockito.spy(storeroomRepository);
+    FakeInMemmoryStoreroomRepository storeroomRepository =
+            new FakeInMemmoryStoreroomRepository(Collections.singletonList(storeroom));
 
-    RefillProduct refillProduct = new RefillProduct(storeroomRepositorySpy, domainEventPublisher);
+    RefillProduct refillProduct = new RefillProduct(storeroomRepository, domainEventPublisher);
     RefillProductCommand command = RefillProductCommand.builder()
             .withStoreroomId(storeroom.id().getValue())
             .withProductId(product.id().getValue())
-            .withQuantity(QuantityStub.random().getValue())
+            .withQuantity(quantity.getValue())
             .build();
 
     // when
     refillProduct.execute(command);
 
     // then
-    verify(storeroomRepositorySpy).update(storeroom);
+    assertThat(storeroomRepository.currentProductStock(storeroom.id(), product.id())).isEqualTo(quantity.getValue());
   }
 
   @Test
-  public void publish_domain_events() {
+  public void publish_product_refilled_domain_events() {
     // given
     Product product = ProductStub.random();
     Storeroom storeroom = StoreroomStub.createWithProducts(product);
 
-    StoreroomRepositoryGettingStoreroomStub storeroomRepository =
-            new StoreroomRepositoryGettingStoreroomStub(storeroom);
+    FakeInMemmoryStoreroomRepository storeroomRepository =
+            new FakeInMemmoryStoreroomRepository(Arrays.asList(storeroom));
 
     RefillProduct refillProduct = new RefillProduct(storeroomRepository, domainEventPublisher);
     int quantity = QuantityStub.random().getValue();

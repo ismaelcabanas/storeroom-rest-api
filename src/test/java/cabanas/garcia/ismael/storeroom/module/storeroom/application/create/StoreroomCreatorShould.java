@@ -1,20 +1,20 @@
 package cabanas.garcia.ismael.storeroom.module.storeroom.application.create;
 
+import cabanas.garcia.ismael.storeroom.module.storeroom.domain.FakeInMemmoryStoreroomRepository;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.Storeroom;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomId;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomName;
-import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomRepository;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.stubs.StoreroomIdStub;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.stubs.StoreroomNameStub;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.stubs.StoreroomStub;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
-import static org.mockito.Mockito.verify;
+import static java.util.Collections.EMPTY_LIST;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class StoreroomCreatorShould {
 
@@ -23,11 +23,11 @@ public class StoreroomCreatorShould {
 
   private StoreroomCreator storeroomCreator;
 
-  @Mock
-  private StoreroomRepository storeroomRepository;
+  private FakeInMemmoryStoreroomRepository storeroomRepository;
 
   @Before
   public void setUp() {
+    storeroomRepository = new FakeInMemmoryStoreroomRepository(EMPTY_LIST);
     storeroomCreator = new StoreroomCreator(storeroomRepository);
   }
 
@@ -43,10 +43,7 @@ public class StoreroomCreatorShould {
     storeroomCreator.execute(command);
 
     //then
-    shouldSaveStoreroom(storeroom);
+    assertThat(storeroomRepository.wasStoreroomPersisted(storeroom.id())).isTrue();
   }
 
-  private void shouldSaveStoreroom(Storeroom storeroom) {
-    verify(storeroomRepository).save(storeroom);
-  }
 }

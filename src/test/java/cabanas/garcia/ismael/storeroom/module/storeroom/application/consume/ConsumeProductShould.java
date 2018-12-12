@@ -2,14 +2,13 @@ package cabanas.garcia.ismael.storeroom.module.storeroom.application.consume;
 
 import cabanas.garcia.ismael.shared.domain.event.DomainEvent;
 import cabanas.garcia.ismael.shared.domain.event.DomainEventPublisher;
-import cabanas.garcia.ismael.storeroom.module.storeroom.domain.InMemmoryStoreroomRepositoryFake;
+import cabanas.garcia.ismael.storeroom.module.storeroom.domain.FakeInMemmoryStoreroomRepository;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.Product;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.ProductConsumedDomainEvent;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.ProductNotInStoreroomException;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.Quantity;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.Storeroom;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomNotFoundException;
-import cabanas.garcia.ismael.storeroom.module.storeroom.domain.StoreroomRepository;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.stubs.ProductIdStub;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.stubs.ProductStub;
 import cabanas.garcia.ismael.storeroom.module.storeroom.domain.stubs.StoreroomIdStub;
@@ -20,7 +19,6 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
@@ -29,7 +27,6 @@ import java.util.Collection;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 
 public class ConsumeProductShould {
@@ -40,7 +37,7 @@ public class ConsumeProductShould {
 
   private Storeroom someStoreroom;
   private Product someProduct;
-  private Quantity currentProductQuantity = Quantity.builder().withValue(FIVE).build();
+  private Quantity currentProductStock = Quantity.builder().withValue(FIVE).build();
 
   @Rule
   public MockitoRule mockitoRule = MockitoJUnit.rule();
@@ -51,24 +48,26 @@ public class ConsumeProductShould {
   @Captor
   private ArgumentCaptor<Collection<DomainEvent>> argumentCaptor;
 
-  private StoreroomRepository storeroomRepository;
+  private FakeInMemmoryStoreroomRepository storeroomRepository;
+
+  private ConsumeProduct consumeProduct;
 
   @Before
   public void setUp() {
     someProduct = ProductStub.random();
     someStoreroom = StoreroomStub.emptyStoreroom();
     someStoreroom.addProduct(someProduct);
-    someStoreroom.reFill(someProduct.id(), currentProductQuantity);
-    storeroomRepository = new InMemmoryStoreroomRepositoryFake(
+    someStoreroom.reFill(someProduct.id(), currentProductStock);
+    storeroomRepository = new FakeInMemmoryStoreroomRepository(
             Arrays.asList(someStoreroom)
     );
+    consumeProduct = new ConsumeProduct(storeroomRepository, domainEventPublisher);
   }
 
   @Test
   public void publish_product_consumed_domain_event() {
     // given
-    ConsumeProduct consumeProduct = new ConsumeProduct(storeroomRepository, domainEventPublisher);
-    int quantityToConsumeLessThanCurrentProductQuantity = currentProductQuantity.getValue() - 2;
+    int quantityToConsumeLessThanCurrentProductQuantity = 2;
     ConsumeProductCommand command = ConsumeProductCommand.builder()
             .withProductId(someProduct.id().getValue())
             .withQuantity(quantityToConsumeLessThanCurrentProductQuantity)
@@ -88,14 +87,11 @@ public class ConsumeProductShould {
   }
 
   @Test
-  public void update_stock_product() {
+  public void update_stock_product_when_consume_it() {
     // given
-    StoreroomRepository storeroomRepositorySpy = Mockito.spy(storeroomRepository);
-    ConsumeProduct consumeProduct = new ConsumeProduct(storeroomRepositorySpy, domainEventPublisher);
-    int quantityToConsumeLessThanCurrentProductQuantity = currentProductQuantity.getValue() - 2;
     ConsumeProductCommand command = ConsumeProductCommand.builder()
             .withProductId(someProduct.id().getValue())
-            .withQuantity(quantityToConsumeLessThanCurrentProductQuantity)
+            .withQuantity(2)
             .withStoreroomId(someStoreroom.id().getValue())
             .build();
 
@@ -103,17 +99,15 @@ public class ConsumeProductShould {
     consumeProduct.execute(command);
 
     // then
-    verify(storeroomRepositorySpy).update(any());
+    assertThat(storeroomRepository.currentProductStock(someStoreroom.id(), someProduct.id())).isEqualTo(3);
   }
 
   @Test
   public void throw_exception_when_does_not_exist_storeroom_to_consume_product_quantity() {
     // given
-    ConsumeProduct consumeProduct = new ConsumeProduct(storeroomRepository, domainEventPublisher);
-    int quantityToConsumeLessThanCurrentProductQuantity = currentProductQuantity.getValue() - 2;
     ConsumeProductCommand command = ConsumeProductCommand.builder()
             .withProductId(someProduct.id().getValue())
-            .withQuantity(quantityToConsumeLessThanCurrentProductQuantity)
+            .withQuantity(2)
             .withStoreroomId(SOME_NOT_EXIST_STOREROOM_ID)
             .build();
 
@@ -127,11 +121,9 @@ public class ConsumeProductShould {
   @Test
   public void throw_exception_when_does_not_exist_product_from_consume() {
     // given
-    ConsumeProduct consumeProduct = new ConsumeProduct(storeroomRepository, domainEventPublisher);
-    int quantityToConsumeLessThanCurrentProductQuantity = currentProductQuantity.getValue() - 2;
     ConsumeProductCommand command = ConsumeProductCommand.builder()
             .withProductId(SOME_NOT_EXIST_PRODUCT_ID)
-            .withQuantity(quantityToConsumeLessThanCurrentProductQuantity)
+            .withQuantity(2)
             .withStoreroomId(someStoreroom.id().getValue())
             .build();
 
